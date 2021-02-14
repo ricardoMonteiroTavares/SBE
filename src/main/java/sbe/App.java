@@ -5,9 +5,6 @@ import Entities.Card;
 import Exceptions.CardNotFoundException;
 import Factories.DAOFactory;
 import corejava.Console;
-import exercicio.Produto;
-import exercicio.ProdutoNaoEncontradoException;
-import exercicio.Util;
 
 import java.util.List;
 
