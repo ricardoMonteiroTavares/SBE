@@ -1,7 +1,4 @@
 /META-INF/
-/Entities/
 /DAOs/
-/Exceptions/
-/Factories/
-/dao.properties
+/Entities/
 /sbe/
