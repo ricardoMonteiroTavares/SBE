@@ -14,7 +14,7 @@ public class Card {
 	// Variáveis do Objeto
 	private String code;
 	private String name;
-	private float balance;
+	private double balance;
 	
 	
 	// Construtores
@@ -26,7 +26,7 @@ public class Card {
 		this.balance = 0;
 	}
 	
-	public Card(String name, float balance) 
+	public Card(String name, double balance) 
 	{
 		this.name = name;
 		this.balance = balance;
@@ -46,7 +46,7 @@ public class Card {
 		return this.name;
 	}
 	
-	public float getBalance()
+	public double getBalance()
 	{
 		return this.balance;
 	}
@@ -64,8 +64,13 @@ public class Card {
 		this.name = name;
 	}
 	
-	public void setBalance(float balance)
+	public void setBalance(double balance)
 	{
 		this.balance = balance;
+	}
+	
+	@Override
+	public String toString() {
+		return "\nCódigo do cartão: "+this.code+"\nNome: "+this.name+"\nSaldo: "+this.balance;
 	}
 }
