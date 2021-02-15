@@ -18,7 +18,7 @@ public class CardDAOImpl implements CardDAO {
 	private final String errorMsg = "Cartão não encotrado";
 	
 	@Override
-	public String insert(Card card) 
+	public Long insert(Card card) 
 	{
 		
 		try {
@@ -31,11 +31,11 @@ public class CardDAOImpl implements CardDAO {
 			return card.getCode();
 		}
 		catch(RuntimeException e) {
-			this.runtimeException(tx, e);
+			this.runtimeException(e);
 			return null;
 		}
 		finally {
-			this.closeEM(em);
+			this.closeEM();
 		}
 	}
 
@@ -60,23 +60,23 @@ public class CardDAOImpl implements CardDAO {
 			tx.commit();
 		}
 		catch(RuntimeException e) {
-			this.runtimeException(tx, e);
+			this.runtimeException(e);
 		}
 		finally {
-			this.closeEM(em);
+			this.closeEM();
 		}
 		
 	}
 
 	@Override
-	public void delete(String code) throws CardNotFoundException {
+	public void delete(Long code) throws CardNotFoundException {
 		
 		try {
 			em = EMFactory.newSession();
 			tx = em.getTransaction();
 			tx.begin();
 			
-			Card card = em.find(Card.class, new String(code), LockModeType.PESSIMISTIC_WRITE);
+			Card card = em.find(Card.class, new Long(code), LockModeType.PESSIMISTIC_WRITE);
 			
 			if(card == null)
 			{
@@ -88,20 +88,20 @@ public class CardDAOImpl implements CardDAO {
 			tx.commit();
 		}
 		catch(RuntimeException e) {
-			this.runtimeException(tx, e);
+			this.runtimeException(e);
 		}
 		finally {
-			this.closeEM(em);
+			this.closeEM();
 		}
 		
 	}
 
 	@Override
-	public Card getCard(String code) throws CardNotFoundException {
+	public Card getCard(Long code) throws CardNotFoundException {
 		try {
 			em = EMFactory.newSession();
 			
-			Card card = em.find(Card.class, code);
+			Card card = em.find(Card.class, new Long(code));
 			
 			if(card == null)
 			{
@@ -112,7 +112,7 @@ public class CardDAOImpl implements CardDAO {
 		}
 		finally
 		{
-			this.closeEM(em);
+			this.closeEM();
 		}
 	}
 
@@ -123,22 +123,22 @@ public class CardDAOImpl implements CardDAO {
 			em = EMFactory.newSession();
 			
 			@SuppressWarnings("unchecked")
-			List<Card> cards = em.createQuery("select c from card c order by c.code").getResultList(); // JPQL
+			List<Card> cards = em.createQuery("select c from Card c order by c.code").getResultList(); // JPQL
 
 			return cards;
 		} 
 		finally
 		{   
-			this.closeEM(em);
+			this.closeEM();
 		}
 	}
 	
-	private void closeEM(EntityManager em) 
+	private void closeEM() 
 	{
 		em.close();
 	}
 	
-	private void runtimeException(EntityTransaction tx, RuntimeException e) throws RuntimeException
+	private void runtimeException(RuntimeException e) throws RuntimeException
 	{
 		if (tx != null)
 		{	

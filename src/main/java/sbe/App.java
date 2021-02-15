@@ -93,7 +93,7 @@ public class App
     private static void updateCard(CardDAO dao) 
     {
     	Card card;
-    	String cardCode = Console.readLine("\nInsira o código do cartão ao qual você deseja atualizar as informações: ");
+    	long cardCode = Console.readInt("\nInsira o código do cartão ao qual você deseja atualizar as informações: ");
     	
     	try
 		{	
@@ -165,7 +165,7 @@ public class App
     private static void removeCard(CardDAO dao) 
     {
     	Card card;
-    	String cardCode = Console.readLine("\nInsira o código do cartão que você deseja remover: ");
+    	long cardCode = Console.readInt("\nInsira o código do cartão que você deseja remover: ");
     	
     	try
 		{	

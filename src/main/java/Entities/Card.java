@@ -8,11 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Card")
+@Table(name="card")
 public class Card {
 	
 	// Variáveis do Objeto
-	private String code;
+	private Long code;
 	private String name;
 	private double balance;
 	
@@ -36,7 +36,7 @@ public class Card {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="CODE")
-	public String getCode() 
+	public Long getCode() 
 	{
 		return this.code; 
 	}
@@ -54,7 +54,7 @@ public class Card {
 	// Setters
 	
 	@SuppressWarnings("unused")
-	private void setCode(String code) 
+	private void setCode(Long code) 
 	{
 		this.code = code;
 	}

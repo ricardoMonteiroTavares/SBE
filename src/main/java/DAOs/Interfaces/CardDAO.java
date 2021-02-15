@@ -6,15 +6,15 @@ import Exceptions.CardNotFoundException;
 import java.util.List;
 
 public interface CardDAO {
-	String insert(Card card);
+	Long insert(Card card);
 	
 	void update(Card card)
 		throws CardNotFoundException;
 	
-	void delete(String code)
+	void delete(Long code)
 		throws CardNotFoundException;
 	
-	Card getCard(String code)
+	Card getCard(Long code)
 		throws CardNotFoundException;
 	
 	List<Card> getAllCards();
