@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -20,7 +21,7 @@ public class Card {
 	private Long code;
 	private String name;
 	private double balance;
-	
+	private int version;
 	
 	// Construtores
 	public Card() {}
@@ -56,6 +57,12 @@ public class Card {
 		return this.balance;
 	}
 	
+	@Version
+	public int getVersion() {
+		return version;
+	}
+
+	
 	// Setters
 	
 	@SuppressWarnings("unused")
@@ -74,8 +81,13 @@ public class Card {
 		this.balance = balance;
 	}
 	
+
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
 	@Override
 	public String toString() {
-		return "\nCódigo do cartão: "+this.code+"\nNome: "+this.name+"\nSaldo: "+this.balance;
+		return "\nCódigo do cartão: "+this.code+"\nNome: "+this.name+"\nSaldo: "+this.balance + "\nVersão:" + this.version;
 	}
 }
