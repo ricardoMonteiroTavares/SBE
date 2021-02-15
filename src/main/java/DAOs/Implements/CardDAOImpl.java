@@ -5,10 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
+import javax.persistence.OptimisticLockException;
 
 import DAOs.Interfaces.CardDAO;
 import Entities.Card;
 import Exceptions.CardNotFoundException;
+import Exceptions.ObjectVersionException;
 import Factories.EMFactory;
 
 public class CardDAOImpl implements CardDAO {
@@ -40,7 +42,7 @@ public class CardDAOImpl implements CardDAO {
 	}
 
 	@Override
-	public void update(Card card) throws CardNotFoundException {
+	public void update(Card card) throws CardNotFoundException, ObjectVersionException {
 		Card c = null;
 		
 		try {
@@ -58,6 +60,13 @@ public class CardDAOImpl implements CardDAO {
 			
 			em.merge(card);
 			tx.commit();
+		}
+		catch(OptimisticLockException e) {
+			if(tx != null)
+			{
+				tx.rollback();
+			}
+			throw new ObjectVersionException();
 		}
 		catch(RuntimeException e) {
 			this.runtimeException(e);

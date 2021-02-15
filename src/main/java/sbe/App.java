@@ -3,6 +3,7 @@ package sbe;
 import DAOs.Interfaces.CardDAO;
 import Entities.Card;
 import Exceptions.CardNotFoundException;
+import Exceptions.ObjectVersionException;
 import Factories.DAOFactory;
 import corejava.Console;
 
@@ -129,6 +130,10 @@ public class App
 				catch(CardNotFoundException e)
 				{	
 					System.out.println('\n' + e.getMessage());
+				} 
+				catch (ObjectVersionException e) 
+				{
+					System.out.println("\nA operação não foi efetuada: Os dados que você tentou salvar foram modificados por outro usuário");
 				}
 					
 				break;
@@ -155,7 +160,11 @@ public class App
 				{	
 					System.out.println('\n' + e.getMessage());
 				}
-					
+				catch (ObjectVersionException e) 
+				{
+					System.out.println("\nA operação não foi efetuada: Os dados que você tentou salvar foram modificados por outro usuário");
+				}
+				
 				break;
 			default:
 				System.out.println("\nOpção inválida!");
@@ -186,7 +195,7 @@ public class App
 			try
 			{	
 			dao.delete(card.getCode());
-				System.out.println("\nProduto removido com sucesso!");
+				System.out.println("\nCartão removido com sucesso!");
 			}
 			catch(CardNotFoundException e)
 			{	
@@ -195,7 +204,7 @@ public class App
 		}
 		else
 		{	
-			System.out.println("\nProduto não removido.");
+			System.out.println("\nCartão não removido.");
 		}
 		
     }
