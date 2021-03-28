@@ -18,7 +18,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Travel {
 	
 	// Variáveis do Objeto
-	private Long code;
+	private Long id;
 	private String line;
 	private String origin;
 	private String destination;
@@ -39,9 +39,9 @@ public class Travel {
 	// Getters
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="CODE")
-	private Long getCode() {
-		return code;
+	@Column(name="ID")
+	private Long getId() {
+		return id;
 	}
 	public String getLine() {
 		return line;
@@ -63,8 +63,8 @@ public class Travel {
 	
 	// Setters
 	@SuppressWarnings("unused")
-	private void setCode(Long code) {
-		this.code = code;
+	private void setCode(Long id) {
+		this.id = id;
 	}
 	
 	public void setLine(String line) {
