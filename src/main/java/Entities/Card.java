@@ -17,7 +17,7 @@ import org.hibernate.annotations.DynamicUpdate;
 @Table(name="card")
 public class Card {
 	
-	// Vari√°veis do Objeto
+	// Vari·veis do Objeto
 	private Long code;
 	private String name;
 	private double balance;
