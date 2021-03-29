@@ -2,7 +2,7 @@ package sbe;
 
 import DAOs.Interfaces.CardDAO;
 import Entities.Card;
-import Exceptions.CardNotFoundException;
+import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
 import Factories.DAOFactory;
 import corejava.Console;
@@ -100,7 +100,7 @@ public class App
 		{	
     		card = dao.getCard(cardCode);
 		}
-		catch(CardNotFoundException e)
+		catch(ObjectNotFoundException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 			return;
@@ -127,7 +127,7 @@ public class App
 			
 					System.out.println("\nAlteração de nome efetuada com sucesso!");
 				}
-				catch(CardNotFoundException e)
+				catch(ObjectNotFoundException e)
 				{	
 					System.out.println('\n' + e.getMessage());
 				} 
@@ -156,7 +156,7 @@ public class App
 					
 					System.out.println("\nCréditos inseridos com sucesso!");						
 				}
-				catch(CardNotFoundException e)
+				catch(ObjectNotFoundException e)
 				{	
 					System.out.println('\n' + e.getMessage());
 				}
@@ -180,7 +180,7 @@ public class App
 		{	
     		card = dao.getCard(cardCode);
 		}
-		catch(CardNotFoundException e)
+		catch(ObjectNotFoundException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 			return;
@@ -197,7 +197,7 @@ public class App
 			dao.delete(card.getCode());
 				System.out.println("\nCartão removido com sucesso!");
 			}
-			catch(CardNotFoundException e)
+			catch(ObjectNotFoundException e)
 			{	
 				System.out.println('\n' + e.getMessage());
 			}

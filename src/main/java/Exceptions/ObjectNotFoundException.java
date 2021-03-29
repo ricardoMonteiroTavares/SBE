@@ -1,16 +1,16 @@
 package Exceptions;
 
-public class CardNotFoundException extends Exception{
+public class ObjectNotFoundException extends Exception{
 
 	private static final long serialVersionUID = 1;
 	private int code;
 	
-	public CardNotFoundException(String msg)
+	public ObjectNotFoundException(String msg)
 	{
 		super(msg);
 	}
 	
-	public CardNotFoundException(String msg, int errorCode)
+	public ObjectNotFoundException(String msg, int errorCode)
 	{
 		super(msg);
 		this.code = errorCode;

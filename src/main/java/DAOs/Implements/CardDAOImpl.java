@@ -9,7 +9,7 @@ import javax.persistence.OptimisticLockException;
 
 import DAOs.Interfaces.CardDAO;
 import Entities.Card;
-import Exceptions.CardNotFoundException;
+import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
 import Factories.EMFactory;
 
@@ -42,7 +42,7 @@ public class CardDAOImpl implements CardDAO {
 	}
 
 	@Override
-	public void update(Card card) throws CardNotFoundException, ObjectVersionException {
+	public void update(Card card) throws ObjectNotFoundException, ObjectVersionException {
 		Card c = null;
 		
 		try {
@@ -55,7 +55,7 @@ public class CardDAOImpl implements CardDAO {
 			if(c == null)
 			{
 				tx.rollback();
-				throw new CardNotFoundException(errorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.merge(card);
@@ -78,7 +78,7 @@ public class CardDAOImpl implements CardDAO {
 	}
 
 	@Override
-	public void delete(Long code) throws CardNotFoundException {
+	public void delete(Long code) throws ObjectNotFoundException {
 		
 		try {
 			em = EMFactory.newSession();
@@ -90,7 +90,7 @@ public class CardDAOImpl implements CardDAO {
 			if(card == null)
 			{
 				tx.rollback();
-				throw new CardNotFoundException(errorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.remove(card);
@@ -106,7 +106,7 @@ public class CardDAOImpl implements CardDAO {
 	}
 
 	@Override
-	public Card getCard(Long code) throws CardNotFoundException {
+	public Card getCard(Long code) throws ObjectNotFoundException {
 		try {
 			em = EMFactory.newSession();
 			
@@ -114,7 +114,7 @@ public class CardDAOImpl implements CardDAO {
 			
 			if(card == null)
 			{
-				throw new CardNotFoundException(errorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			return card;

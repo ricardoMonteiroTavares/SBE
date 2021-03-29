@@ -1,7 +1,7 @@
 package DAOs.Interfaces;
 
 import Entities.Card;
-import Exceptions.CardNotFoundException;
+import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
 
 import java.util.List;
@@ -10,13 +10,13 @@ public interface CardDAO {
 	Long insert(Card card);
 	
 	void update(Card card)
-		throws CardNotFoundException, ObjectVersionException;
+		throws ObjectNotFoundException, ObjectVersionException;
 	
 	void delete(Long code)
-		throws CardNotFoundException;
+		throws ObjectNotFoundException;
 	
 	Card getCard(Long code)
-		throws CardNotFoundException;
+		throws ObjectNotFoundException;
 	
 	List<Card> getAllCards();
 }
