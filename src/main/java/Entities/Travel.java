@@ -40,7 +40,7 @@ public class Travel {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="ID")
-	private Long getId() {
+	public Long getId() {
 		return id;
 	}
 	public String getLine() {
