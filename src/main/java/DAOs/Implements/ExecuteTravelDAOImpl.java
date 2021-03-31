@@ -9,8 +9,6 @@ import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
 
 import DAOs.Interfaces.ExecuteTravelDAO;
-import Entities.Boarding;
-import Entities.Card;
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
@@ -20,8 +18,7 @@ public class ExecuteTravelDAOImpl implements ExecuteTravelDAO{
 	
 	private EntityManager em;
 	private EntityTransaction tx;
-	private final String travelErrorMsg = "Linha n√£o encotrada";
-	private final String exTravelErrorMsg = "Intiner·rio n√£o encotrado";
+	private final String errorMsg = "Intiner·rio n√£o encotrado";
 
 
 	@Override
@@ -58,7 +55,7 @@ public class ExecuteTravelDAOImpl implements ExecuteTravelDAO{
 			if(ext == null)
 			{
 				tx.rollback();
-				throw new ObjectNotFoundException(exTravelErrorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.merge(exTravel);
@@ -92,7 +89,7 @@ public class ExecuteTravelDAOImpl implements ExecuteTravelDAO{
 			if(ext == null)
 			{
 				tx.rollback();
-				throw new ObjectNotFoundException(exTravelErrorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.remove(ext);
@@ -116,7 +113,7 @@ public class ExecuteTravelDAOImpl implements ExecuteTravelDAO{
 			
 			if(ext == null)
 			{
-				throw new ObjectNotFoundException(exTravelErrorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			return ext;
@@ -130,28 +127,73 @@ public class ExecuteTravelDAOImpl implements ExecuteTravelDAO{
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Date date) throws ObjectNotFoundException {
 		// TODO Implementar getAllExTravelsByDate
-		return null;
+		try
+		{	
+			em = EMFactory.newSession();
+			String cmd = "select e from execute_travel e where e.id_travel=" + travelId.toString() + " AND e.date LIKE " + date.toString() + " order by e.id";
+			@SuppressWarnings("unchecked")
+			List<ExecuteTravel> exTravels = em.createQuery(cmd).getResultList(); // JPQL
+
+			return exTravels;
+		} 
+		finally
+		{   
+			this.closeEM();
+		}
 	}
 
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByDateAndDirection(Long travelId, String direction, Date date)
 			throws ObjectNotFoundException {
-		// TODO Implementar getAllExTravelsByDateAndDirection
-		return null;
+		try
+		{	
+			em = EMFactory.newSession();
+			String cmd = "select e from execute_travel e where e.id_travel=" + travelId.toString() + " AND e.date = " + date.toString() + " AND e.direction LIKE " + direction + " order by e.id";
+			@SuppressWarnings("unchecked")
+			List<ExecuteTravel> exTravels = em.createQuery(cmd).getResultList(); // JPQL
+
+			return exTravels;
+		} 
+		finally
+		{   
+			this.closeEM();
+		}
 	}
 
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByPeriod(Long travelId, Date start, Date finish)
 			throws ObjectNotFoundException {
-		// TODO Implementar getAllExTravelsByPeriod
-		return null;
+		try
+		{	
+			em = EMFactory.newSession();
+			String cmd = "select e from execute_travel e where e.id_travel=" + travelId.toString() + " AND e.date >= " + start.toString() + " AND e.date <= " + finish.toString() + " order by e.id";
+			@SuppressWarnings("unchecked")
+			List<ExecuteTravel> exTravels = em.createQuery(cmd).getResultList(); // JPQL
+
+			return exTravels;
+		} 
+		finally
+		{   
+			this.closeEM();
+		}
 	}
 
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByPeriodAndDirection(Long travelId, String direction, Date start,
 			Date finish) throws ObjectNotFoundException {
-		// TODO Implementar getAllExTravelsByPeriodAndDirection
-		return null;
+		try
+		{	
+			em = EMFactory.newSession();
+			String cmd = "select e from execute_travel e where e.id_travel=" + travelId.toString() + " AND e.date >= " + start.toString() + " AND e.date <= " + finish.toString() + " AND e.direction LIKE " + direction + " order by e.id";
+			@SuppressWarnings("unchecked")
+			List<ExecuteTravel> exTravels = em.createQuery(cmd).getResultList(); // JPQL
+
+			return exTravels;
+		} 
+		finally
+		{   
+			this.closeEM();
+		}
 	}
 	
 	private void closeEM() 

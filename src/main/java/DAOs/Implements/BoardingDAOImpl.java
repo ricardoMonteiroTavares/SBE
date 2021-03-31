@@ -18,8 +18,7 @@ public class BoardingDAOImpl implements BoardingDAO{
 	
 	private EntityManager em;
 	private EntityTransaction tx;
-	private final String cardErrorMsg = "Cart√£o n√£o encotrado";
-	private final String boardingErrorMsg = "Embarque n√£o encotrado";
+	private final String errorMsg = "Embarque n√£o encotrado";
 
 	@Override
 	public Long insert(Boarding boarding) {
@@ -55,7 +54,7 @@ public class BoardingDAOImpl implements BoardingDAO{
 			if(b == null)
 			{
 				tx.rollback();
-				throw new ObjectNotFoundException(boardingErrorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.merge(boarding);
@@ -89,7 +88,7 @@ public class BoardingDAOImpl implements BoardingDAO{
 			if(boarding == null)
 			{
 				tx.rollback();
-				throw new ObjectNotFoundException(boardingErrorMsg);
+				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.remove(boarding);
@@ -106,15 +105,37 @@ public class BoardingDAOImpl implements BoardingDAO{
 
 	@Override
 	public List<Boarding> getAllBoardingsByDate(Long cardCode, Date date) throws ObjectNotFoundException {
-		// TODO Fazer a funÁ„o getAllBoardingsByDate
-		return null;
+		try
+		{	
+			em = EMFactory.newSession();
+			String cmd = "select b from boarding b where b.id_card=" + cardCode.toString() + " AND b.date = " + date.toString() + " order by b.id";
+			@SuppressWarnings("unchecked")
+			List<Boarding> boardings = em.createQuery(cmd).getResultList(); // JPQL
+
+			return boardings;
+		} 
+		finally
+		{   
+			this.closeEM();
+		}
 	}
 
 	@Override
 	public List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish)
 			throws ObjectNotFoundException {
-		// TODO Fazer a funÁ„o getAllBoardingsByPeriod
-		return null;
+		try
+		{	
+			em = EMFactory.newSession();
+			String cmd = "select b from boarding b where b.id_card=" + cardCode.toString() + " AND b.date = " + start.toString() + " AND b.date <= " + finish.toString() + " order by b.id";
+			@SuppressWarnings("unchecked")
+			List<Boarding> boardings = em.createQuery(cmd).getResultList(); // JPQL
+
+			return boardings;
+		} 
+		finally
+		{   
+			this.closeEM();
+		}
 	}
 	
 	private void closeEM() 
