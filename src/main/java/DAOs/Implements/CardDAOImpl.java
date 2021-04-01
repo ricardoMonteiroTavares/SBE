@@ -3,9 +3,11 @@ package DAOs.Implements;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
 
 import DAOs.Interfaces.CardDAO;
 import Entities.Card;
@@ -13,32 +15,26 @@ import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
 import Factories.EMFactory;
 
+@Repository
 public class CardDAOImpl implements CardDAO {
 
+	@PersistenceContext
 	private EntityManager em;
-	private EntityTransaction tx;
+	
 	private final String errorMsg = "Cartão não encotrado";
 	
 	@Override
 	public Long insert(Card card) 
 	{
 		
-		try {
-			em = EMFactory.newSession();
-			tx = em.getTransaction();
-			tx.begin();
-			
+		try {			
 			em.persist(card);
-			tx.commit();
+			
 			return card.getCode();
 		}
 		catch(RuntimeException e) {
-			this.runtimeException(e);
-			return null;
-		}
-		finally {
-			this.closeEM();
-		}
+			throw e;
+		}	
 	}
 
 	@Override
@@ -46,33 +42,21 @@ public class CardDAOImpl implements CardDAO {
 		Card c = null;
 		
 		try {
-			em = EMFactory.newSession();
-			tx = em.getTransaction();
-			tx.begin();
 			
 			c = em.find(Card.class, card.getCode(), LockModeType.PESSIMISTIC_WRITE);
 			
 			if(c == null)
-			{
-				tx.rollback();
+			{		
 				throw new ObjectNotFoundException(errorMsg);
 			}
 			
-			em.merge(card);
-			tx.commit();
+			em.merge(card);			
 		}
-		catch(OptimisticLockException e) {
-			if(tx != null)
-			{
-				tx.rollback();
-			}
+		catch(OptimisticLockException e) {			
 			throw new ObjectVersionException();
 		}
 		catch(RuntimeException e) {
-			this.runtimeException(e);
-		}
-		finally {
-			this.closeEM();
+			throw e;
 		}
 		
 	}
@@ -82,83 +66,43 @@ public class CardDAOImpl implements CardDAO {
 		
 		try {
 			em = EMFactory.newSession();
-			tx = em.getTransaction();
-			tx.begin();
 			
 			Card card = em.find(Card.class, new Long(code), LockModeType.PESSIMISTIC_WRITE);
 			
 			if(card == null)
-			{
-				tx.rollback();
+			{				
 				throw new ObjectNotFoundException(errorMsg);
 			}
 			
 			em.remove(card);
-			tx.commit();
 		}
 		catch(RuntimeException e) {
-			this.runtimeException(e);
-		}
-		finally {
-			this.closeEM();
+			throw e;
 		}
 		
 	}
 
 	@Override
 	public Card getCard(Long code) throws ObjectNotFoundException {
-		try {
-			em = EMFactory.newSession();
 			
-			Card card = em.find(Card.class, new Long(code));
-			
-			if(card == null)
-			{
-				throw new ObjectNotFoundException(errorMsg);
-			}
-			
-			return card;
-		}
-		finally
+		Card card = em.find(Card.class, new Long(code));
+		
+		if(card == null)
 		{
-			this.closeEM();
+			throw new ObjectNotFoundException(errorMsg);
 		}
+		
+		return card;
+		
 	}
 
 	@Override
-	public List<Card> getAllCards() {
-		try
-		{	
-			em = EMFactory.newSession();
-			
-			@SuppressWarnings("unchecked")
-			List<Card> cards = em.createQuery("select c from Card c order by c.code").getResultList(); // JPQL
-
-			return cards;
-		} 
-		finally
-		{   
-			this.closeEM();
-		}
+	@SuppressWarnings("unchecked")
+	public List<Card> getAllCards() {		
+		
+		return em.createQuery("select c from Card c order by c.code").getResultList(); // JPQL
+		
 	}
 	
-	private void closeEM() 
-	{
-		em.close();
-	}
-	
-	private void runtimeException(RuntimeException e) throws RuntimeException
-	{
-		if (tx != null)
-		{	
-			try
-			{	
-				tx.rollback();
-			}
-			catch(RuntimeException he)
-			{ }
-		}
-		throw e;
-	}
 
 }
