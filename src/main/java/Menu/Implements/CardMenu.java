@@ -65,7 +65,7 @@ public class CardMenu extends Menu<CardDAO> {
 		System.out.println("2. Alterar um cartão");
 		System.out.println("3. Remover um cartão");
 		System.out.println("4. Listar todos os cartões");
-		System.out.println("5. Sair");
+		System.out.println("5. Retornar ao Menu Anterior");
     }
     
 	@Override
