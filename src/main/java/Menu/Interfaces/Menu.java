@@ -6,9 +6,9 @@ public abstract class Menu<T> {
 	
 	abstract protected void consoleOptions();
 	
-	abstract protected void insert(T obj);
+	abstract protected void insert(T dao);
 	
-	abstract protected void update(T obj);
+	abstract protected void update(T dao);
 	
-	abstract protected void delete(T obj);
+	abstract protected void delete(T dao);
 }
