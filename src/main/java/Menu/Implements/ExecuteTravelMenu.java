@@ -1,8 +1,8 @@
 package Menu.Implements;
 
-import Menu.Interfaces.*;
+import Menu.Interfaces.Menu;
 
-public class ExecuteTravelMenu implements Menu {
+public class ExecuteTravelMenu extends Menu {
 
 	@Override
 	public void menu() {
@@ -11,7 +11,7 @@ public class ExecuteTravelMenu implements Menu {
 	}
 
 	@Override
-	public void consoleOptions() {
+	protected void consoleOptions() {
 		// TODO Auto-generated method stub
 		
 	}

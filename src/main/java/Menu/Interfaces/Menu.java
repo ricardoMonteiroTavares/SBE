@@ -1,8 +1,8 @@
 package Menu.Interfaces;
 
-public interface Menu {
+public abstract class Menu {
 	
-	void menu();
+	abstract public void menu();
 	
-	void consoleOptions();
+	abstract protected void consoleOptions();
 }

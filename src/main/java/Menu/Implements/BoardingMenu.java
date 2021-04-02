@@ -2,7 +2,7 @@ package Menu.Implements;
 
 import Menu.Interfaces.Menu;
 
-public class BoardingMenu implements Menu {
+public class BoardingMenu extends Menu {
 
 	@Override
 	public void menu() {
@@ -11,7 +11,7 @@ public class BoardingMenu implements Menu {
 	}
 
 	@Override
-	public void consoleOptions() {
+	protected void consoleOptions() {
 		// TODO Auto-generated method stub
 		
 	}

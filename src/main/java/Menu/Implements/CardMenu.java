@@ -10,7 +10,7 @@ import Factories.DAOFactory;
 import Menu.Interfaces.Menu;
 import corejava.Console;
 
-public class CardMenu implements Menu {
+public class CardMenu extends Menu {
 	
 	@Override
 	public void menu()
@@ -58,7 +58,7 @@ public class CardMenu implements Menu {
     }
     
 	@Override
-    public void consoleOptions() 
+    protected void consoleOptions() 
     {
     	System.out.println("\nO que você deseja fazer?");
 		System.out.println("\n1. Cadastrar um cartão");
