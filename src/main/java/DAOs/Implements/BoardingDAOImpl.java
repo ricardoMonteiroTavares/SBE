@@ -80,7 +80,7 @@ public class BoardingDAOImpl implements BoardingDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Boarding> getAllBoardingsByDate(Long cardCode, Date date) throws ObjectNotFoundException {
+	public List<Boarding> getAllBoardingsByDate(Long cardCode, Date date){
 				
 		String cmd = "select b from boarding b where b.id_card=" + cardCode.toString() + " AND b.date = " + date.toString() + " order by b.id";
 		return em.createQuery(cmd).getResultList(); // JPQL
@@ -89,8 +89,7 @@ public class BoardingDAOImpl implements BoardingDAO {
 
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish)
-			throws ObjectNotFoundException {
+	public List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish){
 					
 		String cmd = "select b from boarding b where b.id_card=" + cardCode.toString() + " AND b.date = " + start.toString() + " AND b.date <= " + finish.toString() + " order by b.id";		
 		return em.createQuery(cmd).getResultList(); // JPQL

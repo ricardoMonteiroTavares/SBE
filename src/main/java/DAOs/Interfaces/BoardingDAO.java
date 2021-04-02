@@ -16,9 +16,7 @@ public interface BoardingDAO {
 	void delete(Long id)
 		throws ObjectNotFoundException;
 	
-	List<Boarding> getAllBoardingsByDate(Long cardCode, Date date)
-			throws ObjectNotFoundException;
+	List<Boarding> getAllBoardingsByDate(Long cardCode, Date date);
 	
-	List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish)
-			throws ObjectNotFoundException;
+	List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish);
 }
