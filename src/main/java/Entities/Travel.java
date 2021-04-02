@@ -86,4 +86,9 @@ public class Travel {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+	@Override
+	public String toString() {
+		return "\nID da viagem: " + this.id + "\nCódigo: " + this.line + "\nOrigem: " + this.origin + "\nDestino:" + this.destination + "\nTarifa: " + this.ticketValue;
+	}
 }
