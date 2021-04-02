@@ -10,7 +10,7 @@ import Factories.DAOFactory;
 import Menu.Interfaces.Menu;
 import corejava.Console;
 
-public class CardMenu extends Menu {
+public class CardMenu extends Menu<CardDAO> {
 	
 	@Override
 	public void menu()
@@ -27,17 +27,17 @@ public class CardMenu extends Menu {
         	switch (option) {
         		case 1:
         		{
-        			insertCard(cardDao);
+        			insert(cardDao);
         			break;
         		}
         		case 2:
         		{
-        			updateCard(cardDao);
+        			update(cardDao);
         			break;
         		}
         		case 3:
         		{
-        			removeCard(cardDao);
+        			delete(cardDao);
         			break;
         		}
         		case 4:
@@ -68,7 +68,8 @@ public class CardMenu extends Menu {
 		System.out.println("5. Sair");
     }
     
-    private static void insertCard(CardDAO dao)
+	@Override
+    protected void insert(CardDAO dao)
     {
     	Card card;
     	String name = Console.readLine("\nInforme o seu nome: ");
@@ -90,7 +91,8 @@ public class CardMenu extends Menu {
 		System.out.println("\nCartão com código " + card.getCode() + " foi incluído com sucesso!");	
     }
     
-    private void updateCard(CardDAO dao) 
+	@Override
+    protected void update(CardDAO dao) 
     {
     	Card card;
     	long cardCode = Console.readInt("\nInsira o código do cartão ao qual você deseja atualizar as informações: ");
@@ -170,7 +172,8 @@ public class CardMenu extends Menu {
 		}
     }
     
-    private void removeCard(CardDAO dao) 
+	@Override
+    protected void delete(CardDAO dao) 
     {
     	Card card;
     	long cardCode = Console.readInt("\nInsira o código do cartão que você deseja remover: ");
