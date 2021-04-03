@@ -5,7 +5,6 @@ import java.util.List;
 
 import Entities.Boarding;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
 public interface BoardingDAO {
 	Long insert(Boarding boarding);

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
-import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import DAOs.Interfaces.BoardingDAO;
 import Entities.Boarding;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
 @Repository
 public class BoardingDAOImpl implements BoardingDAO {

@@ -3,7 +3,6 @@ package DAOs.Implements;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
 import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
@@ -14,7 +13,6 @@ import DAOs.Interfaces.TravelDAO;
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
-import Factories.EMFactory;
 
 @Repository
 public class TravelDAOImpl implements TravelDAO {

@@ -75,7 +75,7 @@ public class CardMenu extends Menu<CardDAO> {
     	String name = Console.readLine("\nInforme o seu nome: ");
     	
     	String insertBalance = Console.readLine("\nDeseja inserir créditos? ");
-    	if(insertBalance.toLowerCase().equals('s')) {
+    	if(insertBalance.toLowerCase().equals("s")) {
     		double balance = Console.readDouble("Digite o valor a ser inserido no novo cartão: ");
     		if(balance <= 0) {
     			System.out.println("\nO valor a ser inserido deve ser maior do que 0!\n");
