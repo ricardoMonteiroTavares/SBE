@@ -38,7 +38,7 @@ public class TravelMenu extends Menu<TravelDAO> {
         		}
         		case 4:
         		{
-        			//viewAllCards(travelDao);
+        			//TODO: viewAllTravels
         			break;
         		}
         		case 5:
@@ -122,28 +122,34 @@ public class TravelMenu extends Menu<TravelDAO> {
 		switch(option)
 		{
 			case 1:
+			{
 				String newLine = Console.readLine("Digite o novo c�digo da viagem: ");
 				if(isNotEmpty(newLine)) {
 					travel.setLine(newLine);
 					updated = true;
 				}			
 				break;
-				
-			case 2:				
+			}
+			case 2:	
+			{
 				String newOrigin = Console.readLine("Informe a nova origem da viagem: ");
 				if(isNotEmpty(newOrigin) && !newOrigin.equals(travel.getDestination())) {
 					travel.setOrigin(newOrigin);
 					updated = true;
 				}			
 				break;
+			}
 			case 3:
+			{
 				String newDestination = Console.readLine("Informe o novo destino da viagem: ");
 				if(isNotEmpty(newDestination) && !newDestination.equals(travel.getOrigin())) {
 					travel.setDestination(newDestination);
 					updated = true;
 				}			
 				break;
+			}
 			case 4:
+			{
 				double newTicketValue = Console.readDouble("Digite a nova tarifa da viagem: ");					
 				if(newTicketValue > 0) {
 					travel.setTicketValue(newTicketValue);
@@ -151,6 +157,7 @@ public class TravelMenu extends Menu<TravelDAO> {
 					break;
 				}											
 				break;
+			}
 			default:
 				System.out.println("\nOpção inválida!");
 		}
