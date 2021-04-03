@@ -23,7 +23,7 @@ public class Boarding {
 	private Long id;
 	private Long id_executeTravel;
 	private Long id_card;
-	private Date date;
+	private String date;
 	private String time;
 	
 	private int version;
@@ -31,7 +31,7 @@ public class Boarding {
 	// Construtores
 	public Boarding(){}
 	
-	public Boarding(Long id_executeTravel, Long id_card, Date date, String time) {
+	public Boarding(Long id_executeTravel, Long id_card, String date, String time) {
 		this.setId_executeTravel(id_executeTravel);
 		this.setId_card(id_card);
 		this.setDate(date);
@@ -54,7 +54,7 @@ public class Boarding {
 		return id_card;
 	}
 
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -81,7 +81,7 @@ public class Boarding {
 		this.id_card = id_card;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
