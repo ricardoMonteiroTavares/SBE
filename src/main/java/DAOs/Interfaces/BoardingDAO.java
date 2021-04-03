@@ -10,11 +10,11 @@ import Exceptions.ObjectVersionException;
 public interface BoardingDAO {
 	Long insert(Boarding boarding);
 	
-	void update(Boarding boarding)
-		throws ObjectNotFoundException, ObjectVersionException;
-	
 	void delete(Long id)
 		throws ObjectNotFoundException;
+	
+	Boarding getBoarding(Long code)
+			throws ObjectNotFoundException;
 	
 	List<Boarding> getAllBoardingsByDate(Long cardCode, Date date);
 	

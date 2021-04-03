@@ -36,30 +36,6 @@ public class BoardingDAOImpl implements BoardingDAO {
 	}
 
 	@Override
-	public void update(Boarding boarding) throws ObjectNotFoundException, ObjectVersionException {
-		Boarding b = null;
-		
-		try {			
-			
-			b = em.find(Boarding.class, boarding.getId(), LockModeType.PESSIMISTIC_WRITE);
-			
-			if(b == null)
-			{				
-				throw new ObjectNotFoundException(errorMsg);
-			}
-			
-			em.merge(boarding);			
-		}
-		catch(OptimisticLockException e) {			
-			throw new ObjectVersionException();
-		}
-		catch(RuntimeException e) {
-			throw e;
-		}	
-		
-	}
-
-	@Override
 	public void delete(Long id) throws ObjectNotFoundException {
 		try {			
 			
@@ -94,6 +70,18 @@ public class BoardingDAOImpl implements BoardingDAO {
 		String cmd = "select b from boarding b where b.id_card=" + cardCode.toString() + " AND b.date = " + start.toString() + " AND b.date <= " + finish.toString() + " order by b.id";		
 		return em.createQuery(cmd).getResultList(); // JPQL
 		
+	}
+
+	@Override
+	public Boarding getBoarding(Long code) throws ObjectNotFoundException {
+		Boarding boarding = em.find(Boarding.class, new Long(code));
+		
+		if(boarding == null)
+		{
+			throw new ObjectNotFoundException(errorMsg);
+		}
+		
+		return boarding;
 	}
 
 }
