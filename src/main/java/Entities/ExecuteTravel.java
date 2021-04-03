@@ -1,7 +1,5 @@
 package Entities;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +22,7 @@ public class ExecuteTravel {
 	private Long id_travel;
 	private String company;
 	private String vehicleCode;
-	private Date date;
+	private String date;
 	private String time;
 	private String direction;
 	private double ticketValue;
@@ -38,7 +36,7 @@ public class ExecuteTravel {
 			Long id_travel, 
 			String company,
 			String vehicleCode,
-			Date date,
+			String date,
 			String time,
 			String direction,
 			double ticketValue
@@ -72,7 +70,7 @@ public class ExecuteTravel {
 		return vehicleCode;
 	}
 	
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
 
@@ -111,7 +109,7 @@ public class ExecuteTravel {
 		this.vehicleCode = vehicleCode;
 	}
 	
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
 
@@ -125,6 +123,11 @@ public class ExecuteTravel {
 	
 	public void setTicketValue(double ticketValue) {
 		this.ticketValue = ticketValue;
+	}
+	
+	@Override
+	public String toString() {
+	return "\nID do Intinerário: " + this.id + "\nID da Viagem: " + this.id_travel + "\nEmpresa: " + this.company + "\nCód. do Veículo:" + this.vehicleCode + "\nTarifa: " + this.ticketValue + "\nDia: " + this.date + "\nHora: " + this.time + "\nDireção: " + this.direction;
 	}
 
 }
