@@ -1,6 +1,11 @@
 package Menu.Implements;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.util.List;
 
 import DAOs.Interfaces.BoardingDAO;
 import DAOs.Interfaces.CardDAO;
@@ -39,12 +44,12 @@ public class BoardingMenu extends Menu<BoardingDAO> {
         		}
         		case 3:
         		{
-        			//TODO: Listar todos os embarques em um dia
+        			getAllBoardingsInDay(dao);
         			break;
         		}
         		case 4:
         		{
-        			//TODO: Listar todos os embarques em um período
+        			getAllBoardingsInPeriod(dao);
         		}
         		case 5:
         		{
@@ -153,6 +158,78 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 		{	
 			System.out.println("\nEmbarque nÃ£o removido.");
 		}
+	}
+	
+	private void getAllBoardingsInDay(BoardingDAO dao) {
+		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
+		
+		try {			
+			Card card = DAOFactory.getDAO(CardDAO.class).getCard(id);
+			
+			LocalDate today = LocalDate.now();			
+			
+			LocalDate day = LocalDate.parse(Console.readLine("\nInforme a data desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			if(today.isBefore(day)) {
+				System.out.println("O campo data não pode ser superior a data de hoje ou vazia. Cancelando....");
+				return;
+			}
+			
+			Date date = new Date(day.toEpochDay());				 
+			
+			List<Boarding> boardings = dao.getAllBoardingsByDate(card.getCode(), date);
+	    	for(Boarding boarding : boardings) {
+	    		System.out.println(boarding.toString());
+	    	}
+		}
+		catch(ObjectNotFoundException e) {
+			System.out.println('\n' + e.getMessage());
+			return;
+		}
+		catch (DateTimeParseException e) {
+			System.out.println("\nData Inválida.");
+			return;
+		}	
+		
+	}
+	
+	private void getAllBoardingsInPeriod(BoardingDAO dao) {
+		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
+		
+		try {			
+			Card card = DAOFactory.getDAO(CardDAO.class).getCard(id);
+			
+			LocalDate today = LocalDate.now();			
+			
+			LocalDate initial_day = LocalDate.parse(Console.readLine("\nInforme a data inicial desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			if(today.isBefore(initial_day)) {
+				System.out.println("O campo data inicial não pode ser superior a data de hoje ou vazia. Cancelando....");
+				return;
+			}
+					
+			Date date_I = new Date(initial_day.toEpochDay());	
+			
+			LocalDate final_day = LocalDate.parse(Console.readLine("\nInforme a data final desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			if(today.isBefore(final_day) && final_day.isAfter(initial_day) ) {
+				System.out.println("O campo data final não pode ser superior a data de hoje e a data inicial informada, ou vazia. Cancelando....");
+				return;
+			}
+					
+			Date date_F = new Date(final_day.toEpochDay());	
+			
+			List<Boarding> boardings = dao.getAllBoardingsByPeriod(card.getCode(), date_I, date_F);
+	    	for(Boarding boarding : boardings) {
+	    		System.out.println(boarding.toString());
+	    	}
+		}
+		catch(ObjectNotFoundException e) {
+			System.out.println('\n' + e.getMessage());
+			return;
+		}
+		catch (DateTimeParseException e) {
+			System.out.println("\nData Inválida.");
+			return;
+		}		
+		
 	}
 
 	@Override
