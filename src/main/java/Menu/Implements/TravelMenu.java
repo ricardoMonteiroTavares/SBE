@@ -1,5 +1,7 @@
 package Menu.Implements;
 
+import java.util.List;
+
 import DAOs.Interfaces.TravelDAO;
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
@@ -12,7 +14,7 @@ public class TravelMenu extends Menu<TravelDAO> {
 
 	@Override
 	public void menu() {
-		TravelDAO travelDao =  DAOFactory.getDAO(TravelDAO.class);
+		TravelDAO dao =  DAOFactory.getDAO(TravelDAO.class);
     	
         boolean execute = true;
         do {
@@ -23,22 +25,22 @@ public class TravelMenu extends Menu<TravelDAO> {
         	switch (option) {
         		case 1:
         		{
-        			insert(travelDao);
+        			insert(dao);
         			break;
         		}
         		case 2:
         		{
-        			update(travelDao);
+        			update(dao);
         			break;
         		}
         		case 3:
         		{
-        			delete(travelDao);
+        			delete(dao);
         			break;
         		}
         		case 4:
         		{
-        			//TODO: viewAllTravels
+        			viewAllTravels(dao);
         			break;
         		}
         		case 5:
@@ -222,6 +224,14 @@ public class TravelMenu extends Menu<TravelDAO> {
 
 		
 	}
+	
+	 private void viewAllTravels(TravelDAO dao) 
+	    {
+	    	List<Travel> travels = dao.getAllTravels();
+	    	for(Travel travel : travels) {
+	    		System.out.println(travel.toString());
+	    	}
+	    }
 	
 	private boolean isNotEmpty(String s) {
 		return s.isEmpty() && !s.equals("");
