@@ -1,6 +1,11 @@
 package Menu.Implements;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Date;
+import java.util.List;
 
 import DAOs.Interfaces.ExecuteTravelDAO;
 import DAOs.Interfaces.TravelDAO;
@@ -42,12 +47,12 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
         		}
         		case 4:
         		{
-        			//TODO: Listar todos os intinerários de uma viagem em uma data
+        			getAllExecuteTravelsInDay(dao);
         			break;
         		}
         		case 5:
         		{
-        			//TODO: Listar todos os intinerários de uma viagem em um período
+        			getAllExecuteTravelsInPeriod(dao);
         			break;
         		}
         		case 6:
@@ -308,6 +313,149 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 		{	
 			System.out.println('\n' + e.getMessage());
 		}
+	}
+	
+	private void getAllExecuteTravelsInDay(ExecuteTravelDAO dao) {
+		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
+		
+		try {			
+			Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(id);
+			
+			LocalDate today = LocalDate.now();			
+			
+			LocalDate day = LocalDate.parse(Console.readLine("\nInforme a data desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			if(today.isBefore(day)) {
+				System.out.println("O campo data não pode ser superior a data de hoje ou vazia. Cancelando....");
+				return;
+			}
+			
+			Date date = new Date(day.toEpochDay());				 
+			
+			List<ExecuteTravel> exts;			
+			
+			String resp = Console.readLine("\nDeseja informar o sentido do initinerário?");
+			if(resp.toLowerCase().equals("s"))
+			{			
+				System.out.println("\nEscolha o sentido do intinerário:");
+				System.out.println("\n1. " + travel.getOrigin());
+				System.out.println("2. " + travel.getDestination());
+				
+				int option;
+				String direction = null;    			
+				do {
+					option = Console.readInt("\nDigite um número entre 1 e 2:");
+					
+					switch(option) {
+						case 1: 
+						{
+							direction = travel.getOrigin();
+						}
+						case 2:
+						{
+							direction = travel.getDestination();
+						}
+						default:
+						{
+							System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+						}
+					}
+				}while(option != 1 || option != 2);
+				exts = dao.getAllExTravelsByDateAndDirection(travel.getId(), direction, date);							
+			}
+			else
+			{	
+				exts = dao.getAllExTravelsByDate(travel.getId(), date);
+			}
+			
+	    	for(ExecuteTravel ext : exts) {
+	    		System.out.println(ext.toString());
+	    	}
+		}
+		catch(ObjectNotFoundException e) {
+			System.out.println('\n' + e.getMessage());
+			return;
+		}
+		catch (DateTimeParseException e) {
+			System.out.println("\nData Inválida.");
+			return;
+		}	
+		
+	}
+	
+	private void getAllExecuteTravelsInPeriod(ExecuteTravelDAO dao) {
+		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
+		
+		try {			
+			Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(id);
+			
+			LocalDate today = LocalDate.now();			
+			
+			LocalDate initial_day = LocalDate.parse(Console.readLine("\nInforme a data inicial desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			if(today.isBefore(initial_day)) {
+				System.out.println("O campo data inicial não pode ser superior a data de hoje ou vazia. Cancelando....");
+				return;
+			}
+					
+			Date date_I = new Date(initial_day.toEpochDay());	
+			
+			LocalDate final_day = LocalDate.parse(Console.readLine("\nInforme a data final desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			if(today.isBefore(final_day) && final_day.isAfter(initial_day) ) {
+				System.out.println("O campo data final não pode ser superior a data de hoje e a data inicial informada, ou vazia. Cancelando....");
+				return;
+			}
+					
+			Date date_F = new Date(final_day.toEpochDay());	
+			List<ExecuteTravel> exts;			
+			
+			String resp = Console.readLine("\nDeseja informar o sentido do initinerário?");
+			if(resp.toLowerCase().equals("s"))
+			{			
+			
+				System.out.println("\nEscolha o sentido do intinerário:");
+				System.out.println("\n1. " + travel.getOrigin());
+				System.out.println("2. " + travel.getDestination());
+				
+				int option;
+				String direction = null;    			
+				do {
+					option = Console.readInt("\nDigite um número entre 1 e 2:");
+					
+					switch(option) {
+						case 1: 
+						{
+							direction = travel.getOrigin();
+						}
+						case 2:
+						{
+							direction = travel.getDestination();
+						}
+						default:
+						{
+							System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+						}
+					}
+				}while(option != 1 || option != 2);
+				exts = dao.getAllExTravelsByPeriodAndDirection(travel.getId(), direction, date_I, date_F);
+				
+			}
+			else
+			{	
+				exts = dao.getAllExTravelsByPeriod(travel.getId(), date_I, date_F);
+			}
+	    	
+	    	for(ExecuteTravel ext : exts) {
+	    		System.out.println(ext.toString());
+	    	}
+		}
+		catch(ObjectNotFoundException e) {
+			System.out.println('\n' + e.getMessage());
+			return;
+		}
+		catch (DateTimeParseException e) {
+			System.out.println("\nData Inválida.");
+			return;
+		}		
+		
 	}
 
 	private boolean isNotEmpty(String s) {
