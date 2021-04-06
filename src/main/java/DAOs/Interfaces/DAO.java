@@ -3,15 +3,15 @@ package DAOs.Interfaces;
 import Exceptions.ObjectNotFoundException;
 import Exceptions.ObjectVersionException;
 
-public interface DAO<T> {
+public interface DAO<T, PK> {
 	Long insert(T t);
 	
 	void update(T t)
 		throws ObjectNotFoundException, ObjectVersionException;
 	
-	void delete(Long id)
+	void delete(PK id)
 		throws ObjectNotFoundException;
 	
-	T get(Long id)
+	T get(PK id)
 		throws ObjectNotFoundException;
 }
