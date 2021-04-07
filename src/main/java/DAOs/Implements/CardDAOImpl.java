@@ -53,7 +53,7 @@ public class CardDAOImpl implements CardDAO {
 			em.merge(card);			
 		}
 		catch(OptimisticLockException e) {			
-			throw new ObjectVersionException();
+			throw new ObjectVersionException("A operação não foi efetuada: Os dados que você tentou salvar foram modificados por outro usuário");
 		}
 		catch(RuntimeException e) {
 			throw e;

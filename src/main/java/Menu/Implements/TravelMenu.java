@@ -177,7 +177,7 @@ public class TravelMenu extends Menu<TravelDAO> {
 			} 
 			catch (ObjectVersionException e) 
 			{
-				System.out.println("\nA operação não foi efetuada: Os dados que você tentou salvar foram modificados por outro usuário");
+				System.out.println('\n' + e.getMessage());
 			}
 		}else {
 			System.out.println("Campos inv�lidos, Vazios ou Origem � igual ao Destino. Cancelando....");

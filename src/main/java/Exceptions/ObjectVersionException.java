@@ -5,8 +5,6 @@ public class ObjectVersionException extends Exception {
 	private int code;
 	
 	
-	public ObjectVersionException() {}
-	
 	public ObjectVersionException(String msg)
 	{
 		super(msg);

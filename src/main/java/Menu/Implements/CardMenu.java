@@ -131,10 +131,12 @@ public class CardMenu extends Menu<CardDAO> {
 				catch(ObjectNotFoundException e)
 				{	
 					System.out.println('\n' + e.getMessage());
+					return;
 				} 
 				catch (ObjectVersionException e) 
 				{
-					System.out.println("\nA operação não foi efetuada: Os dados que você tentou salvar foram modificados por outro usuário");
+					System.out.println('\n' + e.getMessage());
+					return;
 				}
 					
 				break;
@@ -160,10 +162,12 @@ public class CardMenu extends Menu<CardDAO> {
 				catch(ObjectNotFoundException e)
 				{	
 					System.out.println('\n' + e.getMessage());
+					return;
 				}
 				catch (ObjectVersionException e) 
 				{
-					System.out.println("\nA operação não foi efetuada: Os dados que você tentou salvar foram modificados por outro usuário");
+					System.out.println('\n' + e.getMessage());
+					return;
 				}
 				
 				break;
