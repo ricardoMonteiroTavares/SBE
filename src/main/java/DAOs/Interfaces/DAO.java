@@ -1,17 +1,28 @@
 package DAOs.Interfaces;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
 public interface DAO<T, PK> {
-	Long insert(T t);
+	T insert(T o);
 	
-	void update(T t)
-		throws ObjectNotFoundException, ObjectVersionException;
+	void update(T o)
+		throws ObjectNotFoundException;
 	
-	void delete(PK id)
+	void delete(T o)
 		throws ObjectNotFoundException;
 	
 	T get(PK id)
 		throws ObjectNotFoundException;
+	
+	T getByLockMode(PK id)
+			throws ObjectNotFoundException;
+	
+	T query(Method method, Object[] args) 
+			throws ObjectNotFoundException;
+	
+	List<T> queryList(Method method, Object[] args) 
+			throws ObjectNotFoundException;
 }
