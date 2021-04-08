@@ -10,9 +10,9 @@ public interface TravelService {
 	Travel insert(Travel travel);
 
 	void update(Travel travel)
-		throws ObjectNotFoundException, ObjectVersionException;
+		throws ObjectNotFoundException;
 
-	void delete(Travel id)
+	void delete(Travel travel)
 		throws ObjectNotFoundException;
 
 	Travel get(Long id)
