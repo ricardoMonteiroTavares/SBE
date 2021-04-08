@@ -11,7 +11,7 @@ import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
 import Services.Interfaces.ExecuteTravelService;
 
-public class ExecuteTravelServiceImpl implements ExecuteTravelService{
+public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 
 	@Autowired
 	ExecuteTravelDAO dao;
@@ -79,15 +79,11 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService{
 	}
 
 	@Override
-	public List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Date date) throws ObjectNotFoundException 
+	public List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Date date) 
 	{
 		try 
 		{
 			return dao.getAllExTravelsByDate(travelId, date);
-		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
 		}
 		catch(RuntimeException e) 
 		{
@@ -97,14 +93,10 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService{
 
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByDateAndDirection(Long travelId, String direction, Date date)
-			throws ObjectNotFoundException {
+	{
 		try 
 		{
 			return dao.getAllExTravelsByDateAndDirection(travelId, direction, date);
-		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
 		}
 		catch(RuntimeException e) 
 		{
@@ -114,14 +106,10 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService{
 
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByPeriod(Long travelId, Date start, Date finish)
-			throws ObjectNotFoundException {
+	{
 		try 
 		{
 			return dao.getAllExTravelsByPeriod(travelId, start, finish);
-		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
 		}
 		catch(RuntimeException e) 
 		{
@@ -131,14 +119,10 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService{
 
 	@Override
 	public List<ExecuteTravel> getAllExTravelsByPeriodAndDirection(Long travelId, String direction, Date start,
-			Date finish) throws ObjectNotFoundException {
+			Date finish) {
 		try 
 		{
 			return dao.getAllExTravelsByPeriodAndDirection(travelId, direction, start, finish);
-		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
 		}
 		catch(RuntimeException e) 
 		{
