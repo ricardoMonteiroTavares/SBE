@@ -1,4 +1,4 @@
-package Service.Interfaces;
+package Services.Interfaces;
 
 import java.util.Date;
 import java.util.List;
