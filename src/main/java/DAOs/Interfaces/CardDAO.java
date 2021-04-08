@@ -1,22 +1,12 @@
 package DAOs.Interfaces;
 
-import Entities.Card;
-import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
-
 import java.util.List;
 
-public interface CardDAO {
-	Long insert(Card card);
+import Annotations.GetList;
+import Entities.Card;
+
+public interface CardDAO extends DAO<Card, Long>{
 	
-	void update(Card card)
-		throws ObjectNotFoundException, ObjectVersionException;
-	
-	void delete(Long code)
-		throws ObjectNotFoundException;
-	
-	Card getCard(Long code)
-		throws ObjectNotFoundException;
-	
+	@GetList
 	List<Card> getAllCards();
 }

@@ -4,16 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import Entities.Boarding;
-import Exceptions.ObjectNotFoundException;
 
-public interface BoardingDAO {
-	Long insert(Boarding boarding);
-	
-	void delete(Long id)
-		throws ObjectNotFoundException;
-	
-	Boarding getBoarding(Long code)
-			throws ObjectNotFoundException;
+public interface BoardingDAO extends DAO<Boarding, Long>{
 	
 	List<Boarding> getAllBoardingsByDate(Long cardCode, Date date);
 	

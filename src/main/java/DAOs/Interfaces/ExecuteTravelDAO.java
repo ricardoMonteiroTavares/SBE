@@ -5,19 +5,8 @@ import java.util.List;
 
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
-public interface ExecuteTravelDAO {
-	Long insert(ExecuteTravel exTravel);
-	
-	void update(ExecuteTravel exTravel)
-		throws ObjectNotFoundException, ObjectVersionException;
-	
-	void delete(Long id)
-		throws ObjectNotFoundException;
-	
-	ExecuteTravel getExTravel(Long id)
-			throws ObjectNotFoundException;
+public interface ExecuteTravelDAO extends DAO<ExecuteTravel, Long>{
 	
 	List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Date date)
 			throws ObjectNotFoundException;

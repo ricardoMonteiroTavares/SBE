@@ -2,21 +2,11 @@ package DAOs.Interfaces;
 
 import java.util.List;
 
+import Annotations.GetList;
 import Entities.Travel;
-import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
-public interface TravelDAO {
-	Long insert(Travel travel);
+public interface TravelDAO extends DAO<Travel, Long>{
 	
-	void update(Travel travel)
-		throws ObjectNotFoundException, ObjectVersionException;
-	
-	void delete(Long id)
-		throws ObjectNotFoundException;
-	
-	Travel getTravel(Long id)
-		throws ObjectNotFoundException;
-	
+	@GetList
 	List<Travel> getAllTravels();
 }
