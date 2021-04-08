@@ -10,7 +10,7 @@ public interface CardService {
 	Card insert(Card card);
 
 	void update(Card card)
-		throws ObjectNotFoundException, ObjectVersionException;
+		throws ObjectNotFoundException;
 
 	void delete(Card card)
 		throws ObjectNotFoundException;
