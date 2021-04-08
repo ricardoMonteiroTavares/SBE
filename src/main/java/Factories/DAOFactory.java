@@ -4,7 +4,7 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
-import Proxy.DAOIntercept;
+import Interceptors.DAOIntercept;
 import net.sf.cglib.proxy.Enhancer;
 
 public class DAOFactory {

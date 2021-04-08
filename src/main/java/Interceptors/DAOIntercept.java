@@ -1,4 +1,4 @@
-package Proxy;
+package Interceptors;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
