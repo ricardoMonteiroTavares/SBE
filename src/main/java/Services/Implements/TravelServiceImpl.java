@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import DAOs.Interfaces.TravelDAO;
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 import Services.Interfaces.TravelService;
 
 public class TravelServiceImpl implements TravelService{

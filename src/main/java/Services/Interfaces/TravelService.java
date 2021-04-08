@@ -4,7 +4,6 @@ import java.util.List;
 
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
 public interface TravelService {
 	Travel insert(Travel travel);

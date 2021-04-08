@@ -4,7 +4,6 @@ import java.util.List;
 
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
 public interface CardService {
 	Card insert(Card card);
