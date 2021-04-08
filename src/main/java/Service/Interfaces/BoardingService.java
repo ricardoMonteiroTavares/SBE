@@ -12,7 +12,7 @@ public interface BoardingService {
 	void delete(Boarding id)
 		throws ObjectNotFoundException;
 
-	Boarding getBoarding(Long code)
+	Boarding get(Long code)
 			throws ObjectNotFoundException;
 
 	List<Boarding> getAllBoardingsByDate(Long cardCode, Date date);

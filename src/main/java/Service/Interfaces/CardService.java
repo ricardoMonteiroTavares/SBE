@@ -15,7 +15,7 @@ public interface CardService {
 	void delete(Card card)
 		throws ObjectNotFoundException;
 
-	Card getCard(Long code)
+	Card get(Long code)
 		throws ObjectNotFoundException;
 
 	List<Card> getAllCards();

@@ -15,7 +15,7 @@ public interface TravelService {
 	void delete(Travel id)
 		throws ObjectNotFoundException;
 
-	Travel getTravel(Long id)
+	Travel get(Long id)
 		throws ObjectNotFoundException;
 
 	List<Travel> getAllTravels();

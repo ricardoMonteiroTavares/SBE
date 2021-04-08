@@ -16,7 +16,7 @@ public interface ExecuteTravelService {
 	void delete(ExecuteTravel id)
 		throws ObjectNotFoundException;
 
-	ExecuteTravel getExTravel(Long id)
+	ExecuteTravel get(Long id)
 			throws ObjectNotFoundException;
 
 	List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Date date)
