@@ -12,7 +12,7 @@ public class DAOFactory {
 	@SuppressWarnings("unchecked")
 	public static <T> T getDAO(Class<T> type)
 	{			
-		Reflections reflections = new Reflections("dao.impl");
+		Reflections reflections = new Reflections("DAOs.Implements");
 
 		Set<Class<? extends T>> classes = reflections.getSubTypesOf(type);
 
