@@ -5,15 +5,14 @@ import java.util.List;
 
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
 
 public interface ExecuteTravelService {
 	ExecuteTravel insert(ExecuteTravel exTravel);
 
 	void update(ExecuteTravel exTravel)
-		throws ObjectNotFoundException, ObjectVersionException;
+		throws ObjectNotFoundException;
 
-	void delete(ExecuteTravel id)
+	void delete(ExecuteTravel exTravel)
 		throws ObjectNotFoundException;
 
 	ExecuteTravel get(Long id)
