@@ -2,21 +2,20 @@ package Menu.Implements;
 
 import java.util.List;
 
-import DAOs.Interfaces.CardDAO;
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
-import Factories.DAOFactory;
+import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
+import Services.Interfaces.CardService;
 import corejava.Console;
 
-public class CardMenu extends Menu<CardDAO> {
+public class CardMenu extends Menu<CardService> {
 	
 	@Override
 	public void menu()
     {
     	
-    	CardDAO cardDao =  DAOFactory.getDAO(CardDAO.class);
+    	CardService service =  ServiceFactory.getService(CardService.class);
     	
         boolean execute = true;
         do {
@@ -27,22 +26,22 @@ public class CardMenu extends Menu<CardDAO> {
         	switch (option) {
         		case 1:
         		{
-        			insert(cardDao);
+        			insert(service);
         			break;
         		}
         		case 2:
         		{
-        			update(cardDao);
+        			update(service);
         			break;
         		}
         		case 3:
         		{
-        			delete(cardDao);
+        			delete(service);
         			break;
         		}
         		case 4:
         		{
-        			viewAllCards(cardDao);
+        			viewAllCards(service);
         			break;
         		}
         		case 5:
@@ -51,7 +50,7 @@ public class CardMenu extends Menu<CardDAO> {
         			break;
         		}
         		default:
-					System.out.println("\nOp√ß√£o inv√°lida!");
+					System.out.println(invalidOption);
         	}
         	
         }while(execute);
@@ -60,23 +59,23 @@ public class CardMenu extends Menu<CardDAO> {
 	@Override
     protected void consoleOptions() 
     {
-    	System.out.println("\nO que voc√™ deseja fazer?");
-		System.out.println("\n1. Cadastrar um cart√£o");
-		System.out.println("2. Alterar um cart√£o");
-		System.out.println("3. Remover um cart√£o");
-		System.out.println("4. Listar todos os cart√µes");
+    	System.out.println("\nO que vocÍ deseja fazer?");
+		System.out.println("\n1. Cadastrar um cart„o");
+		System.out.println("2. Alterar um cart„o");
+		System.out.println("3. Remover um cart„o");
+		System.out.println("4. Listar todos os cartıes");
 		System.out.println("5. Retornar ao Menu Anterior");
     }
     
 	@Override
-    protected void insert(CardDAO dao)
+    protected void insert(CardService service)
     {
     	Card card;
     	String name = Console.readLine("\nInforme o seu nome: ");
     	
-    	String insertBalance = Console.readLine("\nDeseja inserir cr√©ditos? ");
+    	String insertBalance = Console.readLine("\nDeseja inserir crÈditos? ");
     	if(insertBalance.toLowerCase().equals("s")) {
-    		double balance = Console.readDouble("Digite o valor a ser inserido no novo cart√£o: ");
+    		double balance = Console.readDouble("Digite o valor a ser inserido no novo cart„o: ");
     		if(balance <= 0) {
     			System.out.println("\nO valor a ser inserido deve ser maior do que 0!\n");
     			return;
@@ -85,21 +84,65 @@ public class CardMenu extends Menu<CardDAO> {
     	}else {
     		card = new Card(name);
     	}
-		dao.insert(card);
+		service.insert(card);
 	
 			
-		System.out.println("\nCart√£o com c√≥digo " + card.getCode() + " foi inclu√≠do com sucesso!");	
+		System.out.println("\nCart„o com cÛdigo " + card.getCode() + " foi incluÌ≠do com sucesso!");	
     }
     
 	@Override
-    protected void update(CardDAO dao) 
+    protected void update(CardService service) 
     {
     	Card card;
-    	long cardCode = Console.readInt("\nInsira o c√≥digo do cart√£o ao qual voc√™ deseja atualizar as informa√ß√µes: ");
+    	long cardCode = Console.readInt("\nInsira o cÛdigo do cart„o ao qual vocÍ deseja atualizar as informaÁıes: ");
     	
     	try
 		{	
-    		card = dao.getCard(cardCode);
+    		card = service.get(cardCode);
+    		
+    		System.out.println(card.toString());
+        	
+        	System.out.println("\nO que vocÍ deseja fazer?");
+    		System.out.println("\n1. Mudar Nome");
+    		System.out.println("2. Inserir CrÈditos");
+    		
+    		int option = Console.readInt("\nDigite um n˙mero de 1 a 2:");
+    		
+    		switch(option)
+    		{
+    			case 1:
+    			{
+    				String newName = Console.readLine("Digite o novo nome: ");
+    	
+    				card.setName(newName);
+    				
+					service.update(card);
+			
+					System.out.println("\nAlteraÁ„o de nome efetuada com sucesso!");
+    					
+    				break;
+    			}
+    			case 2:
+    			{
+    				double insertBalance = Console.readDouble("Digite o valor a ser inserido no cart„o: ");
+    		
+    				
+    				if(insertBalance <= 0) {
+    					System.out.println("\nO valor a ser inserido deve ser maior do que 0!\n");
+    					break;
+    				}
+    				
+    				double newBalance = card.getBalance() + insertBalance;
+    				card.setBalance(newBalance);
+    				service.update(card);
+    					
+    				System.out.println("\nCrÈditos inseridos com sucesso!");						    		
+    				
+    				break;
+    			}
+    			default:
+    				System.out.println(invalidOption);
+    		}
 		}
 		catch(ObjectNotFoundException e)
 		{	
@@ -107,117 +150,46 @@ public class CardMenu extends Menu<CardDAO> {
 			return;
 		}
     	
-    	System.out.println(card.toString());
     	
-    	System.out.println("\nO que voc√™ deseja fazer?");
-		System.out.println("\n1. Mudar Nome");
-		System.out.println("2. Inserir Cr√©ditos");
-		
-		int option = Console.readInt("\nDigite um n√∫mero de 1 a 2:");
-		
-		switch(option)
-		{
-			case 1:
-				String newName = Console.readLine("Digite o novo nome: ");
-	
-				card.setName(newName);
-			
-				try
-				{	
-					dao.update(card);
-			
-					System.out.println("\nAltera√ß√£o de nome efetuada com sucesso!");
-				}
-				catch(ObjectNotFoundException e)
-				{	
-					System.out.println('\n' + e.getMessage());
-					return;
-				} 
-				catch (ObjectVersionException e) 
-				{
-					System.out.println('\n' + e.getMessage());
-					return;
-				}
-					
-				break;
-				
-			case 2:
-				double insertBalance = Console.readDouble("Digite o valor a ser inserido no cart√£o: ");
-		
-				
-				if(insertBalance <= 0) {
-					System.out.println("\nO valor a ser inserido deve ser maior do que 0!\n");
-					break;
-				}
-				
-				double newBalance = card.getBalance() + insertBalance;
-				card.setBalance(newBalance);
-		
-				try
-				{	
-					dao.update(card);
-					
-					System.out.println("\nCr√©ditos inseridos com sucesso!");						
-				}
-				catch(ObjectNotFoundException e)
-				{	
-					System.out.println('\n' + e.getMessage());
-					return;
-				}
-				catch (ObjectVersionException e) 
-				{
-					System.out.println('\n' + e.getMessage());
-					return;
-				}
-				
-				break;
-			default:
-				System.out.println("\nOp√ß√£o inv√°lida!");
-		}
     }
     
 	@Override
-    protected void delete(CardDAO dao) 
+    protected void delete(CardService service) 
     {
     	Card card;
-    	long cardCode = Console.readInt("\nInsira o c√≥digo do cart√£o que voc√™ deseja remover: ");
+    	long cardCode = Console.readInt("\nInsira o cÛdigo do cart„o que vocÍ deseja remover: ");
     	
     	try
 		{	
-    		card = dao.getCard(cardCode);
-		}
-		catch(ObjectNotFoundException e)
-		{	
-			System.out.println('\n' + e.getMessage());
-			return;
-		}
-							
-		System.out.println(card.toString());
-											
-		String resp = Console.readLine("\nConfirma a remo√ß√£o do cart√£o?");
+    		card = service.get(cardCode);
+    		
+    		System.out.println(card.toString());
+			
+    		String resp = Console.readLine("\nConfirma a remoÁ„o do cart„o? (S ou s para Sim, Qualquer tecla para N„o)");
 
-		if(resp.toLowerCase().equals("s"))
-		{	
-			try
-			{	
-			dao.delete(card.getCode());
-				System.out.println("\nCart√£o removido com sucesso!");
-			}
-			catch(ObjectNotFoundException e)
-			{	
-				System.out.println('\n' + e.getMessage());
-			}
+    		if(resp.toLowerCase().equals("s"))
+    		{	
+    				
+    			service.delete(card);
+    			System.out.println("\nCart„o removido com sucesso!");
+    			
+    		}
+    		else
+    		{	
+    			System.out.println("\nCart„o n„o removido.");
+    		}
 		}
-		else
+		catch(ObjectNotFoundException e)
 		{	
-			System.out.println("\nCart√£o n√£o removido.");
-		}
+			System.out.println('\n' + e.getMessage());
+			return;
+		}						
 		
     }
     
-    private void viewAllCards(CardDAO dao) 
+    private void viewAllCards(CardService service) 
     {
-    	List<Card> cards = dao.getAllCards();
+    	List<Card> cards = service.getAllCards();
     	for(Card card : cards) {
     		System.out.println(card.toString());
     	}

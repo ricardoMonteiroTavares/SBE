@@ -7,23 +7,23 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
-import DAOs.Interfaces.BoardingDAO;
 import DAOs.Interfaces.CardDAO;
 import DAOs.Interfaces.ExecuteTravelDAO;
 import Entities.Boarding;
 import Entities.Card;
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
-import Factories.DAOFactory;
+import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
+import Services.Interfaces.BoardingService;
+import Services.Interfaces.CardService;
 import corejava.Console;
 
-public class BoardingMenu extends Menu<BoardingDAO> {
+public class BoardingMenu extends Menu<BoardingService> {
 
 	@Override
 	public void menu() {
-		BoardingDAO dao =  DAOFactory.getDAO(BoardingDAO.class);
+		BoardingService service =  ServiceFactory.getService(BoardingService.class);
     	
         boolean execute = true;
         do {
@@ -34,22 +34,22 @@ public class BoardingMenu extends Menu<BoardingDAO> {
         	switch (option) {
         		case 1:
         		{
-        			insert(dao);
+        			insert(service);
         			break;
         		}        		
         		case 2:
         		{
-        			delete(dao);
+        			delete(service);
         			break;
         		}
         		case 3:
         		{
-        			getAllBoardingsInDay(dao);
+        			getAllBoardingsInDay(service);
         			break;
         		}
         		case 4:
         		{
-        			getAllBoardingsInPeriod(dao);
+        			getAllBoardingsInPeriod(service);
         		}
         		case 5:
         		{
@@ -57,7 +57,7 @@ public class BoardingMenu extends Menu<BoardingDAO> {
         			break;
         		}
         		default:
-					System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+					System.out.println(invalidOption);
         	}
         	
         }while(execute);
@@ -66,7 +66,7 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 
 	@Override
 	protected void consoleOptions() {
-		System.out.println("\nO que vocÃª deseja fazer?");
+		System.out.println("\nO que você deseja fazer?");
 		System.out.println("\n1. Criar um embarque");
 		System.out.println("2. Remover um embarque");
 		System.out.println("3. Listar todos os embarques em um dia");
@@ -76,19 +76,19 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 	}
 
 	@Override
-	protected void insert(BoardingDAO dao) {
+	protected void insert(BoardingService service) {
 		Boarding boarding;
 		
 		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
 					
 		try 
 		{
-			CardDAO cardDao = DAOFactory.getDAO(CardDAO.class);
-			Card card = cardDao.getCard(id);
+			CardService cardService = ServiceFactory.getService(CardService.class);
+			Card card = cardService.get(id);
 			
 			id = (long) Console.readInt("\nInforme o código do intinerário: ");
 			
-			ExecuteTravel ext = DAOFactory.getDAO(ExecuteTravelDAO.class).getExTravel(id);
+			ExecuteTravel ext = ServiceFactory.getService(ExecuteTravelDAO.class).get(id);
 			
 			if((card.getBalance() - ext.getTicketValue()) < 0) {
 				System.out.println("Saldo insuficiente no Cartão. Cancelando....");
@@ -101,16 +101,12 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 			
 			boarding = new Boarding(ext.getId(), card.getCode(), dt.toLocalDate().toString(), dt.toLocalTime().toString());
 			
-			dao.insert(boarding);
-			cardDao.update(card);
+			service.insert(boarding);
+			cardService.update(card);
 			
 		}
 		catch(ObjectNotFoundException e) {
-			System.out.println("Cartão ou Intinerário não encontrado. Cancelando....");
-			return;
-		}
-		catch (ObjectVersionException e) {
-			System.out.println("\nA operaÃ§Ã£o nÃ£o foi efetuada: Os dados que vocÃª tentou salvar foram modificados por outro usuÃ¡rio");
+			System.out.println(e.toString());
 			return;
 		}
 		catch (RuntimeException e)
@@ -119,18 +115,18 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 			return;
 		}
 				
-		System.out.println("\nO Embarque com o id " + boarding.getId() + " foi incluÃ­do com sucesso!");
+		System.out.println("\nO Embarque com o id " + boarding.getId() + " foi incluído com sucesso!");
 		
 	}
 
 	@Override
-	protected void delete(BoardingDAO dao) {
+	protected void delete(BoardingService service) {
 		Boarding boarding;
 		Long id = (long) Console.readInt("\nInforme o código do embarque que deseja remover: ");
     	
     	try
 		{	
-    		boarding = dao.getBoarding(id);
+    		boarding = service.get(id);
 		}
 		catch(ObjectNotFoundException e)
 		{	
@@ -140,13 +136,13 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 							
 		System.out.println(boarding.toString());
 											
-		String resp = Console.readLine("\nConfirma a remoÃ§Ã£o do embarque?");
+		String resp = Console.readLine("\nConfirma a remoção do embarque? (S ou s para Sim, Qualquer tecla para Não)");
 
 		if(resp.toLowerCase().equals("s"))
 		{	
 			try
 			{	
-			dao.delete(boarding.getId());
+			service.delete(boarding);
 				System.out.println("\nEmbarque removido com sucesso!");
 			}
 			catch(ObjectNotFoundException e)
@@ -156,15 +152,15 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 		}
 		else
 		{	
-			System.out.println("\nEmbarque nÃ£o removido.");
+			System.out.println("\nEmbarque não removido.");
 		}
 	}
 	
-	private void getAllBoardingsInDay(BoardingDAO dao) {
+	private void getAllBoardingsInDay(BoardingService service) {
 		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
 		
 		try {			
-			Card card = DAOFactory.getDAO(CardDAO.class).getCard(id);
+			Card card = ServiceFactory.getService(CardDAO.class).get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
@@ -176,7 +172,7 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 			
 			Date date = new Date(day.toEpochDay());				 
 			
-			List<Boarding> boardings = dao.getAllBoardingsByDate(card.getCode(), date);
+			List<Boarding> boardings = service.getAllBoardingsByDate(card.getCode(), date);
 	    	for(Boarding boarding : boardings) {
 	    		System.out.println(boarding.toString());
 	    	}
@@ -192,11 +188,11 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 		
 	}
 	
-	private void getAllBoardingsInPeriod(BoardingDAO dao) {
+	private void getAllBoardingsInPeriod(BoardingService service) {
 		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
 		
 		try {			
-			Card card = DAOFactory.getDAO(CardDAO.class).getCard(id);
+			Card card = ServiceFactory.getService(CardDAO.class).get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
@@ -216,7 +212,7 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 					
 			Date date_F = new Date(final_day.toEpochDay());	
 			
-			List<Boarding> boardings = dao.getAllBoardingsByPeriod(card.getCode(), date_I, date_F);
+			List<Boarding> boardings = service.getAllBoardingsByPeriod(card.getCode(), date_I, date_F);
 	    	for(Boarding boarding : boardings) {
 	    		System.out.println(boarding.toString());
 	    	}
@@ -233,6 +229,6 @@ public class BoardingMenu extends Menu<BoardingDAO> {
 	}
 
 	@Override
-	protected void update(BoardingDAO dao) {}
+	protected void update(BoardingService service) {}
 
 }
