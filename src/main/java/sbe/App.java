@@ -1,6 +1,6 @@
 package sbe;
 
-import Menu.Implements.CardMenu;
+import Menu.Implements.*;
 import corejava.Console;
 
 /**
@@ -12,13 +12,16 @@ public class App
     public static void main( String[] args )
     {
     	CardMenu cardMenu = new CardMenu();
+    	BoardingMenu boardingMenu = new BoardingMenu();
+    	ExecuteTravelMenu exMenu = new ExecuteTravelMenu();
+    	TravelMenu travelMenu = new TravelMenu();
     	
     	boolean execute = true;
     	
     	do {
     		consoleOptions();
     		
-    		int option = Console.readInt("\nDigite um nÃºmero entre 1 e 3:");
+    		int option = Console.readInt("\nDigite um número entre 1 e 3:");
     		
     		switch (option) {
     		case 1:
@@ -28,17 +31,17 @@ public class App
     		}
     		case 2:
     		{
-    			
+    			travelMenu.menu();
     			break;
     		}
     		case 3:
     		{
-    			
+    			exMenu.menu();
     			break;
     		}
     		case 4:
     		{
-    			
+    			boardingMenu.menu();
     			break;
     		}
     		case 5:
@@ -47,7 +50,7 @@ public class App
     			break;
     		}
     		default:
-				System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+				System.out.println("\nOpção inválida!");
     	}
     		
     	}while(execute);
