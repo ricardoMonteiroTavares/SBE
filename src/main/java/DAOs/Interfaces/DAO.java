@@ -20,9 +20,6 @@ public interface DAO<T, PK> {
 	T getByLockMode(PK id)
 			throws ObjectNotFoundException;
 	
-	T query(Method method, Object[] args) 
-			throws ObjectNotFoundException;
-	
 	List<T> queryList(Method method, Object[] args) 
 			throws ObjectNotFoundException;
 }

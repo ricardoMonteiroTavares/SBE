@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
-import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import Annotations.Execute;
@@ -80,34 +79,6 @@ public class DAOImpl<T, PK> implements DAO<T, PK> {
 		}
 
 		return t;
-	}
-
-	@SuppressWarnings("unchecked")
-	public final T query(Method method, Object[] args) throws ObjectNotFoundException {
-		T t = null;
-		try {
-			String search = convertMethodToString(method);
-
-//			"select p from Produto p 
-//			"left outer join fetch p.lances "
-//			+ "where p.id = ?1"
-
-			Query namedQuery = em.createNamedQuery(search);
-
-			if (args != null) {
-				for (int i = 0; i < args.length; i++) {
-					Object arg = args[i];
-					namedQuery.setParameter(i + 1, arg); 
-				}
-			}
-			t = (T) namedQuery.getSingleResult();
-
-			return t;
-		} catch (NoResultException e) {
-			throw new ObjectNotFoundException("Elemento não encontrado");
-		} catch (RuntimeException e) {
-			throw e;
-		}
 	}
 
 	@SuppressWarnings("unchecked")
