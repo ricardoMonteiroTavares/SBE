@@ -2,6 +2,8 @@ package Menu.Interfaces;
 
 public abstract class Menu<T> {
 	
+	final protected String invalidOption = "\nOpção Inválida!"; 
+	
 	abstract public void menu();
 	
 	abstract protected void consoleOptions();
