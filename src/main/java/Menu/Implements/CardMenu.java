@@ -21,7 +21,7 @@ public class CardMenu extends Menu<CardService> {
         do {
         	consoleOptions();
         	
-        	int option = Console.readInt("\nDigite um nÃºmero entre 1 e 5:");
+        	int option = Console.readInt("\nDigite um número entre 1 e 5:");
         	
         	switch (option) {
         		case 1:
@@ -73,7 +73,7 @@ public class CardMenu extends Menu<CardService> {
     	Card card;
     	String name = Console.readLine("\nInforme o seu nome: ");
     	
-    	String insertBalance = Console.readLine("\nDeseja inserir créditos? ");
+    	String insertBalance = Console.readLine("\nDeseja inserir créditos? (S ou s para Sim, Qualquer tecla para Não)");
     	if(insertBalance.toLowerCase().equals("s")) {
     		double balance = Console.readDouble("Digite o valor a ser inserido no novo cartão: ");
     		if(balance <= 0) {
