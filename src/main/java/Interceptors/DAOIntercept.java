@@ -51,7 +51,7 @@ public class DAOIntercept implements MethodInterceptor {
 		if (method.isAnnotationPresent(Execute.class)) {
 			return proxy.invokeSuper(obj, args);
 		} else if (method.isAnnotationPresent(GetList.class)) {
-			return dao.query(method, args);
+			return dao.queryList(method, args);
 		} else {
 			throw new RuntimeException("Executando o método " + method.getName() + 
 					                   " da classe " + method.getDeclaringClass() + 
