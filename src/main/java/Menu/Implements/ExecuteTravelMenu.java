@@ -7,52 +7,51 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
-import DAOs.Interfaces.ExecuteTravelDAO;
 import DAOs.Interfaces.TravelDAO;
 import Entities.ExecuteTravel;
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
-import Exceptions.ObjectVersionException;
-import Factories.DAOFactory;
+import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
+import Services.Interfaces.ExecuteTravelService;
 import corejava.Console;
 
-public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
+public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 
 	@Override
 	public void menu() {
-		ExecuteTravelDAO dao =  DAOFactory.getDAO(ExecuteTravelDAO.class);
+		ExecuteTravelService service =  ServiceFactory.getService(ExecuteTravelService.class);
     	
         boolean execute = true;
         do {
         	consoleOptions();
         	
-        	int option = Console.readInt("\nDigite um nÃºmero entre 1 e 5:");
+        	int option = Console.readInt("\nDigite um número entre 1 e 5:");
         	
         	switch (option) {
         		case 1:
         		{
-        			insert(dao);
+        			insert(service);
         			break;
         		}
         		case 2:
         		{
-        			update(dao);
+        			update(service);
         			break;
         		}
         		case 3:
         		{
-        			delete(dao);
+        			delete(service);
         			break;
         		}
         		case 4:
         		{
-        			getAllExecuteTravelsInDay(dao);
+        			getAllExecuteTravelsInDay(service);
         			break;
         		}
         		case 5:
         		{
-        			getAllExecuteTravelsInPeriod(dao);
+        			getAllExecuteTravelsInPeriod(service);
         			break;
         		}
         		case 6:
@@ -61,7 +60,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
         			break;
         		}
         		default:
-					System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+					System.out.println(invalidOption);
         	}
         	
         }while(execute);
@@ -70,7 +69,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 
 	@Override
 	protected void consoleOptions() {
-		System.out.println("\nO que vocÃª deseja fazer?");
+		System.out.println("\nO que você deseja fazer?");
 		System.out.println("\n1. Criar um intinerário");
 		System.out.println("2. Alterar um intinerário");
 		System.out.println("3. Remover um intinerário");
@@ -81,12 +80,12 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 	}
 
 	@Override
-	protected void insert(ExecuteTravelDAO dao) {
+	protected void insert(ExecuteTravelService service) {
 		ExecuteTravel ext;
 		
 		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
 		try {						
-			Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(id);
+			Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
 			
 			String company = Console.readLine("Informe a empresa que fará o intinerário: ");
 			
@@ -102,31 +101,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 				return;
 			}
 			
-			System.out.println("\nEscolha o sentido do intinerário:");
-			System.out.println("\n1. " + travel.getOrigin());
-			System.out.println("2. " + travel.getDestination());
-			
-			String direction = null;
-			int option;
-			do {
-				option = Console.readInt("\nDigite um número entre 1 e 2:");
-				
-				switch(option) {
-					case 1: 
-					{
-						direction = travel.getOrigin();
-					}
-					case 2:
-					{
-						direction = travel.getDestination();
-					}
-					default:
-					{
-						System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
-					}
-				}
-			}while(option != 1 || option != 2);
-			
+			String direction = selectDirection(travel);
 			
 			LocalDateTime dt = LocalDateTime.now();
 			ext = new ExecuteTravel(
@@ -138,7 +113,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 					direction,
 					travel.getTicketValue()
 			);
-			dao.insert(ext);
+			service.insert(ext);
 		}
 		catch(ObjectNotFoundException e) {
 			System.out.println("Viagem não encontrada. Cancelando....");
@@ -150,21 +125,21 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 			return;
 		}
 		
-		System.out.println("\nIntinerário com o id " + ext.getId() + "foi incluÃ­do com sucesso!");
+		System.out.println("\nIntinerário com o id " + ext.getId() + "foi incluí­do com sucesso!");
 	}
 
 	@Override
-	protected void update(ExecuteTravelDAO dao) {
+	protected void update(ExecuteTravelService service) {
 		
-		long id = Console.readInt("\nInsira o ID do intinerário ao qual vocÃª deseja atualizar as informaÃ§Ãµes: ");
+		long id = Console.readInt("\nInsira o ID do intinerário ao qual você deseja atualizar as informações: ");
 		
     	try
 		{	
-    		ExecuteTravel ext = dao.getExTravel(id);
+    		ExecuteTravel ext = service.get(id);
     		
     		System.out.println(ext.toString());
         	
-        	System.out.println("\nO que vocÃª deseja fazer?");
+        	System.out.println("\nO que você deseja fazer?");
     		System.out.println("\n1. Mudar a Viagem");
     		System.out.println("2. Mudar a Empresa");
     		System.out.println("3. Mudar o Sentido");
@@ -178,7 +153,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
     			case 1:    			
     			{
     				id = (long) Console.readInt("\nInforme o ID da viagem: ");
-    				Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(id);
+    				Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
     				
     				System.out.println("\nEscolha o novo sentido do intinerário:");
     				System.out.println("\n1. " + travel.getOrigin());
@@ -199,7 +174,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
     						}
     						default:
     						{
-    							System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+    							System.out.println(invalidOption);
     						}
     					}
     				}while(option != 1 || option != 2);
@@ -221,7 +196,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
     			}
     			case 3:
     			{
-    				Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(ext.getId_travel());
+    				Travel travel = ServiceFactory.getService(TravelDAO.class).get(ext.getId_travel());
     				
     				System.out.println("\nEscolha o novo sentido do intinerário:");
     				System.out.println("\n1. " + travel.getOrigin());
@@ -242,7 +217,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
     						}
     						default:
     						{
-    							System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+    							System.out.println(invalidOption);
     						}
     					}
     				}while(option != 1 || option != 2);
@@ -262,12 +237,12 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
     				break;
     			}
     			default:
-    				System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
+    				System.out.println(invalidOption);
     		}
     		
     		if(updated)
     		{
-    			dao.update(ext);
+    			service.update(ext);
     		}
     		else 
     		{
@@ -280,33 +255,30 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 		{	
 			System.out.println('\n' + e.getMessage());
 			return;
-		} catch (ObjectVersionException e) {
-			System.out.println('\n' + e.getMessage());
-			return;
 		}    	    
 		
 	}
 
 	@Override
-	protected void delete(ExecuteTravelDAO dao) {
+	protected void delete(ExecuteTravelService service) {
 		long id = Console.readInt("\nInsira o ID do intinerário que você deseja remover: ");
 		try
 		{	
-    		ExecuteTravel ext = dao.getExTravel(id);
+    		ExecuteTravel ext = service.get(id);
 				
 							
 			System.out.println(ext.toString());
 												
-			String resp = Console.readLine("\nConfirma a remoção do intinerário?");
+			String resp = Console.readLine("\nConfirma a remoção do intinerário? (S ou s para Sim, Qualquer tecla para Não)");
 
 			if(resp.toLowerCase().equals("s"))
 			{			
-				dao.delete(ext.getId());
+				service.delete(ext);
 				System.out.println("\nIntinerário removido com sucesso!");								
 			}
 			else
 			{	
-				System.out.println("\nIntinerário nÃ£o removido.");
+				System.out.println("\nIntinerário não removido.");
 			}
 		}
 		catch(ObjectNotFoundException e)
@@ -315,11 +287,11 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 		}
 	}
 	
-	private void getAllExecuteTravelsInDay(ExecuteTravelDAO dao) {
+	private void getAllExecuteTravelsInDay(ExecuteTravelService service) {
 		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
 		
 		try {			
-			Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(id);
+			Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
@@ -333,38 +305,15 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 			
 			List<ExecuteTravel> exts;			
 			
-			String resp = Console.readLine("\nDeseja informar o sentido do initinerário?");
+			String resp = Console.readLine("\nDeseja informar o sentido do initinerário? (S ou s para Sim, Qualquer tecla para Não)");
 			if(resp.toLowerCase().equals("s"))
 			{			
-				System.out.println("\nEscolha o sentido do intinerário:");
-				System.out.println("\n1. " + travel.getOrigin());
-				System.out.println("2. " + travel.getDestination());
-				
-				int option;
-				String direction = null;    			
-				do {
-					option = Console.readInt("\nDigite um número entre 1 e 2:");
-					
-					switch(option) {
-						case 1: 
-						{
-							direction = travel.getOrigin();
-						}
-						case 2:
-						{
-							direction = travel.getDestination();
-						}
-						default:
-						{
-							System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
-						}
-					}
-				}while(option != 1 || option != 2);
-				exts = dao.getAllExTravelsByDateAndDirection(travel.getId(), direction, date);							
+				String direction = selectDirection(travel);
+				exts = service.getAllExTravelsByDateAndDirection(travel.getId(), direction, date);							
 			}
 			else
 			{	
-				exts = dao.getAllExTravelsByDate(travel.getId(), date);
+				exts = service.getAllExTravelsByDate(travel.getId(), date);
 			}
 			
 	    	for(ExecuteTravel ext : exts) {
@@ -382,11 +331,11 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 		
 	}
 	
-	private void getAllExecuteTravelsInPeriod(ExecuteTravelDAO dao) {
+	private void getAllExecuteTravelsInPeriod(ExecuteTravelService service) {
 		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
 		
 		try {			
-			Travel travel = DAOFactory.getDAO(TravelDAO.class).getTravel(id);
+			Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
@@ -407,40 +356,16 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 			Date date_F = new Date(final_day.toEpochDay());	
 			List<ExecuteTravel> exts;			
 			
-			String resp = Console.readLine("\nDeseja informar o sentido do initinerário?");
+			String resp = Console.readLine("\nDeseja informar o sentido do initinerário? (S ou s para Sim, Qualquer tecla para Não)");
 			if(resp.toLowerCase().equals("s"))
 			{			
-			
-				System.out.println("\nEscolha o sentido do intinerário:");
-				System.out.println("\n1. " + travel.getOrigin());
-				System.out.println("2. " + travel.getDestination());
-				
-				int option;
-				String direction = null;    			
-				do {
-					option = Console.readInt("\nDigite um número entre 1 e 2:");
-					
-					switch(option) {
-						case 1: 
-						{
-							direction = travel.getOrigin();
-						}
-						case 2:
-						{
-							direction = travel.getDestination();
-						}
-						default:
-						{
-							System.out.println("\nOpÃ§Ã£o invÃ¡lida!");
-						}
-					}
-				}while(option != 1 || option != 2);
-				exts = dao.getAllExTravelsByPeriodAndDirection(travel.getId(), direction, date_I, date_F);
+				String direction = selectDirection(travel);
+				exts = service.getAllExTravelsByPeriodAndDirection(travel.getId(), direction, date_I, date_F);
 				
 			}
 			else
 			{	
-				exts = dao.getAllExTravelsByPeriod(travel.getId(), date_I, date_F);
+				exts = service.getAllExTravelsByPeriod(travel.getId(), date_I, date_F);
 			}
 	    	
 	    	for(ExecuteTravel ext : exts) {
@@ -460,5 +385,33 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelDAO> {
 
 	private boolean isNotEmpty(String s) {
 		return s.isEmpty() && !s.equals("");
+	}
+	
+	private String selectDirection(Travel travel) {
+		System.out.println("\nEscolha o sentido do intinerário:");
+		System.out.println("\n1. " + travel.getOrigin());
+		System.out.println("2. " + travel.getDestination());
+		
+		int option;
+		String direction = null;    			
+		do {
+			option = Console.readInt("\nDigite um número entre 1 e 2:");
+			
+			switch(option) {
+				case 1: 
+				{
+					direction = travel.getOrigin();
+				}
+				case 2:
+				{
+					direction = travel.getDestination();
+				}
+				default:
+				{
+					System.out.println(invalidOption);
+				}
+			}
+		}while(option != 1 || option != 2);
+		return direction;
 	}
 }
