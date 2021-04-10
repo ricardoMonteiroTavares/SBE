@@ -11,7 +11,7 @@ import net.sf.cglib.proxy.Enhancer;
 
 public class ServiceFactory {
 	@SuppressWarnings("unchecked")
-	public static <T> T getservice(Class<T> type) 
+	public static <T> T getService(Class<T> type) 
 	{
 
 		Reflections reflections = new Reflections("Services.Implements");
