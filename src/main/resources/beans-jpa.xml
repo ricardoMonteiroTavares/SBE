@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+             http://www.springframework.org/schema/beans/spring-beans.xsd 
+             http://www.springframework.org/schema/context 
+             http://www.springframework.org/schema/context/spring-context.xsd 
+             http://www.springframework.org/schema/tx
+             http://www.springframework.org/schema/tx/spring-tx.xsd
+             http://www.springframework.org/schema/util
+             http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="travelService" class="Services.Implements.TravelServiceImpl"/>
+	<bean id="executeTravelService" class="Services.Implements.ExecuteTravelServiceImpl"/>
+	<bean id="cardService" class="Services.Implements.CardServiceImpl"/>
+	<bean id="boardingService" class="Services.Implements.BoardingServiceImpl"/>
+
+<!--  
+    No exercício 9, sem o uso do DAO genérico, na  linha abaixo o nome do package informado
+    era "dao.impl" pois nesse package eram encontradas as classes Impl dos  DAOs. A  partir 
+    desse exercício, que utiliza o DAO genérico, como  os DAOs são criados de  uma  maneira 
+    especial (devem possuir um interceptador para a  implementação do DAO genérico),  temos
+    que acrescentar em base-package abaixo o package  onde estão os  métodos  anotados  com
+    @Bean.
+-->
+    <context:component-scan base-package="Interceptors" />
+
+<!--  
+    Acrescentando  o  elemento  abaixo  será  registrado  automaticamente  um bean  do tipo 
+    PersistenceAnnotationBeanPostProcessor   que  ficará   responsável   por   injetar   um 
+    EntityManager diferente, a cada  nova transação, nas  classes do  tipo DAO que utilizam
+    a anotação @PersistenceContext.
+-->
+    <context:annotation-config />
+
+<!--  
+    Aqui  é  preciso  declarar  uma  JpaTransactionManager  e  habilitar o gerenciamento de 
+    transação de forma declarativa com os elementos abaixo.
+ -->
+    <tx:annotation-driven />
+    
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+<!-- 
+    Spring  provê  um  fábrica denominada  LocalContainerEntityManagerFactoryBean, para que 
+    se possa criar um objeto entity manager factory no container IoC. 
+-->
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="exercicio" />
+		<property name="packagesToScan" value="modelo" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+				<property name="showSql" value="true" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/banco?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=America/Sao_Paulo" />
+		<property name="username" value="root" />
+		<property name="password" value="password" />
+	</bean>
+
+	<!-- Exception translation is still enabled by the use of the @Repository 
+		annotation on the DAO. This annotation enables a Spring bean postprocessor 
+		to advice all @Repository beans with all the PersistenceExceptionTranslator 
+		instances found in the Container - and provide exception translation just 
+		as before. -->
+
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+</beans>
