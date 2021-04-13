@@ -24,23 +24,23 @@ public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 		this.type = type;
 	}
 
-	public T insert(T o) 
+	public final T insert(T o) 
 	{		
 		em.persist(o);
 		return o;
 	}
 
-	public void update(T o) 
+	public final void update(T o) 
 	{		
 		em.merge(o);		
 	}
 
-	public void delete(T o) 
+	public final void delete(T o) 
 	{		
 		em.remove(o);
 	}
 
-	public T get(PK id) throws ObjectNotFoundException {
+	public final T get(PK id) throws ObjectNotFoundException {
 		T t = null;
 		try {
 			t = em.find(type, id);
@@ -54,7 +54,7 @@ public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 		return t;
 	}
 
-	public T getByLockMode(PK id) throws ObjectNotFoundException {
+	public final T getByLockMode(PK id) throws ObjectNotFoundException {
 		T t = null;
 		try {
 			t = em.find(type, id, LockModeType.PESSIMISTIC_WRITE);
