@@ -30,6 +30,7 @@ public class TravelServiceImpl implements TravelService{
 	{
 		try 
 		{
+			dao.getByLockMode(travel.getId());
 			dao.update(travel);	
 		}
 		catch(ObjectNotFoundException e) 
@@ -48,6 +49,7 @@ public class TravelServiceImpl implements TravelService{
 	{
 		try 
 		{
+			dao.getByLockMode(travel.getId());
 			dao.delete(travel);
 		}
 		catch(ObjectNotFoundException e) 
