@@ -7,20 +7,25 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
-import DAOs.Interfaces.TravelDAO;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import Entities.ExecuteTravel;
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
-import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.ExecuteTravelService;
+import Services.Interfaces.TravelService;
 import corejava.Console;
 
 public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 
 	@Override
 	public void menu() {
-		ExecuteTravelService service =  ServiceFactory.getService(ExecuteTravelService.class);
+		@SuppressWarnings("resource")
+		ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+		ExecuteTravelService service = (ExecuteTravelService) factory.getBean("executeTravelService");
+
     	
         boolean execute = true;
         do {
@@ -84,8 +89,11 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 		ExecuteTravel ext;
 		
 		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
-		try {						
-			Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
+		try {					
+			@SuppressWarnings("resource")
+			ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+			TravelService travelService = (TravelService) factory.getBean("travelService");
+			Travel travel = travelService.get(id);
 			
 			String company = Console.readLine("Informe a empresa que fará o intinerário: ");
 			
@@ -132,7 +140,9 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 	protected void update(ExecuteTravelService service) {
 		
 		long id = Console.readInt("\nInsira o ID do intinerário ao qual você deseja atualizar as informações: ");
-		
+		@SuppressWarnings("resource")
+		ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+		TravelService travelService = (TravelService) factory.getBean("travelService");
     	try
 		{	
     		ExecuteTravel ext = service.get(id);
@@ -153,7 +163,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
     			case 1:    			
     			{
     				id = (long) Console.readInt("\nInforme o ID da viagem: ");
-    				Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
+    				Travel travel = travelService.get(id);
     				
     				System.out.println("\nEscolha o novo sentido do intinerário:");
     				System.out.println("\n1. " + travel.getOrigin());
@@ -196,7 +206,8 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
     			}
     			case 3:
     			{
-    				Travel travel = ServiceFactory.getService(TravelDAO.class).get(ext.getId_travel());
+    				
+    				Travel travel = travelService.get(id);
     				
     				System.out.println("\nEscolha o novo sentido do intinerário:");
     				System.out.println("\n1. " + travel.getOrigin());
@@ -290,8 +301,11 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 	private void getAllExecuteTravelsInDay(ExecuteTravelService service) {
 		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
 		
-		try {			
-			Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
+		try {
+			@SuppressWarnings("resource")
+			ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+			TravelService travelService = (TravelService) factory.getBean("travelService");
+			Travel travel = travelService.get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
@@ -335,7 +349,10 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 		Long id = (long) Console.readInt("\nInforme o ID da viagem: ");
 		
 		try {			
-			Travel travel = ServiceFactory.getService(TravelDAO.class).get(id);
+			@SuppressWarnings("resource")
+			ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+			TravelService travelService = (TravelService) factory.getBean("travelService");
+			Travel travel = travelService.get(id);
 			
 			LocalDate today = LocalDate.now();			
 			

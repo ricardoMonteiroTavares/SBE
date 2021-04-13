@@ -2,9 +2,11 @@ package Menu.Implements;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
-import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.CardService;
 import corejava.Console;
@@ -15,7 +17,10 @@ public class CardMenu extends Menu<CardService> {
 	public void menu()
     {
     	
-    	CardService service =  ServiceFactory.getService(CardService.class);
+		@SuppressWarnings("resource")
+		ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+		CardService service = (CardService) factory.getBean("cardService");
     	
         boolean execute = true;
         do {

@@ -2,9 +2,11 @@ package Menu.Implements;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
-import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.TravelService;
 import corejava.Console;
@@ -13,7 +15,9 @@ public class TravelMenu extends Menu<TravelService> {
 
 	@Override
 	public void menu() {
-		TravelService service =  ServiceFactory.getService(TravelService.class);
+		@SuppressWarnings("resource")
+		ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+		TravelService service = (TravelService) factory.getBean("travelService");
     	
         boolean execute = true;
         do {

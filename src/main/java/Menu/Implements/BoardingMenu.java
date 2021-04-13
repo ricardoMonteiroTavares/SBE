@@ -7,23 +7,28 @@ import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 
-import DAOs.Interfaces.CardDAO;
-import DAOs.Interfaces.ExecuteTravelDAO;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import Entities.Boarding;
 import Entities.Card;
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
-import Factories.ServiceFactory;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.BoardingService;
 import Services.Interfaces.CardService;
+import Services.Interfaces.ExecuteTravelService;
 import corejava.Console;
 
 public class BoardingMenu extends Menu<BoardingService> {
 
 	@Override
 	public void menu() {
-		BoardingService service =  ServiceFactory.getService(BoardingService.class);
+		@SuppressWarnings("resource")
+		ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+		BoardingService service = (BoardingService) factory.getBean("boardingService");
+
     	
         boolean execute = true;
         do {
@@ -83,12 +88,18 @@ public class BoardingMenu extends Menu<BoardingService> {
 					
 		try 
 		{
-			CardService cardService = ServiceFactory.getService(CardService.class);
+			@SuppressWarnings("resource")
+			ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+			CardService cardService = (CardService) factory.getBean("cardService");
+			
+			
 			Card card = cardService.get(id);
 			
 			id = (long) Console.readInt("\nInforme o código do intinerário: ");
 			
-			ExecuteTravel ext = ServiceFactory.getService(ExecuteTravelDAO.class).get(id);
+			ExecuteTravelService extService = (ExecuteTravelService) factory.getBean("executeTravelService");
+			ExecuteTravel ext = extService.get(id);
 			
 			if((card.getBalance() - ext.getTicketValue()) < 0) {
 				System.out.println("Saldo insuficiente no Cartão. Cancelando....");
@@ -159,8 +170,12 @@ public class BoardingMenu extends Menu<BoardingService> {
 	private void getAllBoardingsInDay(BoardingService service) {
 		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
 		
-		try {			
-			Card card = ServiceFactory.getService(CardDAO.class).get(id);
+		try {	
+			@SuppressWarnings("resource")
+			ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+			CardService cardService = (CardService) factory.getBean("cardService");
+			Card card = cardService.get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
@@ -192,7 +207,11 @@ public class BoardingMenu extends Menu<BoardingService> {
 		Long id = (long) Console.readInt("\nInforme o código do cartão: ");
 		
 		try {			
-			Card card = ServiceFactory.getService(CardDAO.class).get(id);
+			@SuppressWarnings("resource")
+			ApplicationContext factory = new ClassPathXmlApplicationContext("beans-jpa.xml");
+
+			CardService cardService = (CardService) factory.getBean("cardService");
+			Card card = cardService.get(id);
 			
 			LocalDate today = LocalDate.now();			
 			
