@@ -1,26 +1,39 @@
 package Factories;
 
-import java.util.Set;
+import org.springframework.context.annotation.Bean;
 
-import org.reflections.Reflections;
-
+import DAOs.Implements.BoardingDAOImpl;
+import DAOs.Implements.CardDAOImpl;
+import DAOs.Implements.ExecuteTravelDAOImpl;
+import DAOs.Implements.TravelDAOImpl;
 import Interceptors.DAOIntercept;
 import net.sf.cglib.proxy.Enhancer;
 
 public class DAOFactory {
 
+	@Bean
+	public static BoardingDAOImpl getBoardingDAO() throws Exception {
+		return getDAO(DAOs.Implements.BoardingDAOImpl.class);
+	}
+	
+	@Bean
+	public static CardDAOImpl getCardDAO() throws Exception {
+		return getDAO(DAOs.Implements.CardDAOImpl.class);
+	}
+	
+	@Bean
+	public static TravelDAOImpl getTravelDAO() throws Exception {
+		return getDAO(DAOs.Implements.TravelDAOImpl.class);
+	}
+	
+	@Bean
+	public static ExecuteTravelDAOImpl getExTravelDAO() throws Exception {
+		return getDAO(DAOs.Implements.ExecuteTravelDAOImpl.class);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static <T> T getDAO(Class<T> type)
 	{			
-		Reflections reflections = new Reflections("DAOs.Implements");
-
-		Set<Class<? extends T>> classes = reflections.getSubTypesOf(type);
-
-		if (classes.size() > 1)
-			throw new RuntimeException("Somente uma classe pode implementar " + type.getName());
-
-		Class<?> classe = classes.iterator().next();
-
-		return (T) Enhancer.create(classe, new DAOIntercept());
+		return (T) Enhancer.create(type, new DAOIntercept());
 	}
 }
