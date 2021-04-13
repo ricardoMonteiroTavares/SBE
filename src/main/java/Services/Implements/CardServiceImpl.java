@@ -33,6 +33,7 @@ public class CardServiceImpl implements CardService {
 		
 		try 
 		{
+			dao.getByLockMode(card.getCode());
 			dao.update(card);	
 		}
 		catch(ObjectNotFoundException e) 
@@ -52,6 +53,7 @@ public class CardServiceImpl implements CardService {
 	{
 		try 
 		{
+			dao.getByLockMode(card.getCode());
 			dao.delete(card);
 		}
 		catch(ObjectNotFoundException e) 
