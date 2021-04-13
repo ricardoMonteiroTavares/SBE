@@ -26,7 +26,7 @@
     que acrescentar em base-package abaixo o package  onde estão os  métodos  anotados  com
     @Bean.
 -->
-    <context:component-scan base-package="Interceptors" />
+    <context:component-scan base-package="Factories" />
 
 <!--  
     Acrescentando  o  elemento  abaixo  será  registrado  automaticamente  um bean  do tipo 
