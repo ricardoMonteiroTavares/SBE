@@ -33,7 +33,7 @@ public class BoardingServiceImpl implements BoardingService {
 	{
 		try 
 		{
-			Card card = cardDao.get(boarding.getId_card());
+			Card card = cardDao.getByLockMode(boarding.getId_card());
 			
 			double newBalance = card.getBalance() - exDao.get(boarding.getId_executeTravel()).getTicketValue();
 			card.setBalance(newBalance);
@@ -53,7 +53,7 @@ public class BoardingServiceImpl implements BoardingService {
 	{
 		try 
 		{
-			Card card = cardDao.get(boarding.getId_card());
+			Card card = cardDao.getByLockMode(boarding.getId_card());
 			
 			double newBalance = card.getBalance() + exDao.get(boarding.getId_executeTravel()).getTicketValue();
 			card.setBalance(newBalance);
