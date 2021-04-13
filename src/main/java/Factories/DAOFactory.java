@@ -1,6 +1,7 @@
 package Factories;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import DAOs.Implements.BoardingDAOImpl;
 import DAOs.Implements.CardDAOImpl;
@@ -9,6 +10,7 @@ import DAOs.Implements.TravelDAOImpl;
 import Interceptors.DAOIntercept;
 import net.sf.cglib.proxy.Enhancer;
 
+@Configuration
 public class DAOFactory {
 
 	@Bean
