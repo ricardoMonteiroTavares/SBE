@@ -1,12 +1,9 @@
 package Interceptors;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import Annotations.Execute;
 import Annotations.GetList;
 import DAOs.Implements.DAOImpl;
-import Util.JPAUtil;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -34,23 +31,9 @@ public class DAOIntercept implements MethodInterceptor {
 	public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) 
 		throws Throwable {
 
-		System.out.println("Método interceptado do DAO: " + method.getName() + 
-				           " da classe " + method.getDeclaringClass().getName());
-
-		Field field = obj.getClass().getSuperclass().getSuperclass().getDeclaredField("em");
-		try {
-			field.setAccessible(true);
-			System.out.println(">>>>>>>>>>>>>>>> Injetou o entity manager.");
-			field.set(obj, JPAUtil.getEntityManager());
-		} catch (IllegalArgumentException | IllegalAccessException e) {
-			throw new RuntimeException(e);
-		}
-
 		DAOImpl<?, ?> dao = (DAOImpl<?, ?>) obj;
 
-		if (method.isAnnotationPresent(Execute.class)) {
-			return proxy.invokeSuper(obj, args);
-		} else if (method.isAnnotationPresent(GetList.class)) {
+		if (method.isAnnotationPresent(GetList.class)) {
 			return dao.queryList(method, args);
 		} else {
 			throw new RuntimeException("Executando o método " + method.getName() + 
