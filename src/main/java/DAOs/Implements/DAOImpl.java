@@ -1,56 +1,45 @@
 package DAOs.Implements;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import Annotations.Execute;
 import DAOs.Interfaces.DAO;
 import Exceptions.ObjectNotFoundException;
 
 
-public class DAOImpl<T, PK> implements DAO<T, PK> {
+public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 	private Class<T> type;
 
+	@PersistenceContext
 	protected EntityManager em; 
 
-	public DAOImpl(Class<T> type) {
+	public DAOImpl(Class<T> type) 
+	{
 		this.type = type;
 	}
 
-	@Execute
-	public T insert(T o) {
-		try {
-			em.persist(o);
-		} catch (RuntimeException e) {
-			throw e;
-		}
-
+	public T insert(T o) 
+	{		
+		em.persist(o);
 		return o;
 	}
 
-	@Execute
-	public void update(T o) {
-		try {
-			em.merge(o);
-		} catch (RuntimeException e) {
-			throw e;
-		}
+	public void update(T o) 
+	{		
+		em.merge(o);		
 	}
 
-	@Execute
-	public void delete(T o) {
-		try {
-			em.remove(o);
-		} catch (RuntimeException e) {
-			throw e;
-		}
+	public void delete(T o) 
+	{		
+		em.remove(o);
 	}
 
-	@Execute
 	public T get(PK id) throws ObjectNotFoundException {
 		T t = null;
 		try {
@@ -65,7 +54,6 @@ public class DAOImpl<T, PK> implements DAO<T, PK> {
 		return t;
 	}
 
-	@Execute
 	public T getByLockMode(PK id) throws ObjectNotFoundException {
 		T t = null;
 		try {

@@ -1,18 +1,17 @@
 package DAOs.Interfaces;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
 import Exceptions.ObjectNotFoundException;
 
-public interface DAO<T, PK> {
+public interface DAO<T, PK extends Serializable> {
 	T insert(T o);
 	
-	void update(T o)
-		throws ObjectNotFoundException;
+	void update(T o);
 	
-	void delete(T o)
-		throws ObjectNotFoundException;
+	void delete(T o);
 	
 	T get(PK id)
 		throws ObjectNotFoundException;
