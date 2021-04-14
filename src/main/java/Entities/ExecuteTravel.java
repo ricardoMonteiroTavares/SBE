@@ -5,11 +5,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+
+@NamedQueries(
+	{ 
+		@NamedQuery(name = "ExecuteTravel.getAllExTravelsByDate", query = "select e from ExecuteTravel e where e.id_travel= ?1 AND e.date= ?2 order by e.id"),
+		@NamedQuery(name = "ExecuteTravel.getAllExTravelsByPeriod", query = "select e from ExecuteTravel e where e.id_travel= ?1 AND e.date>= ?2 AND e.date <= ?3 order by e.id"),
+		@NamedQuery(name = "ExecuteTravel.getAllExTravelsByDateAndDirection", query = "select e from ExecuteTravel e where e.id_travel= ?1 AND e.date= ?2 AND e.direction LIKE ?3 order by e.id"),
+		@NamedQuery(name = "ExecuteTravel.getAllExTravelsByPeriodAndDirection", query = "select e from ExecuteTravel e where e.id_travel= ?1 AND e.date>= ?2 AND e.date <= ?3 AND e.direction LIKE ?4 order by e.id")
+	}
+)
 
 @Entity
 @DynamicInsert

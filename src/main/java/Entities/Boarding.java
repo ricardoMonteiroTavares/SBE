@@ -5,11 +5,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
+
+@NamedQueries(
+	{ 
+		@NamedQuery(name = "Boarding.getAllBoardingsByDate", query = "select b from Boarding b where b.id_card= ?1 AND b.date = ?2 order by b.id"),
+		@NamedQuery(name = "Boarding.getAllBoardingsByPeriod", query = "select b from Boarding b where b.id_card= ?1 AND b.date >= ?2 AND b.date <= ?3 order by b.id")
+	}
+)
+
 
 @Entity
 @DynamicInsert
