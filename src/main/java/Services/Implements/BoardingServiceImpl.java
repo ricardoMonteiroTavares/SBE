@@ -1,6 +1,6 @@
 package Services.Implements;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,7 @@ public class BoardingServiceImpl implements BoardingService {
 	}
 
 	@Override
-	public List<Boarding> getAllBoardingsByDate(Long cardCode, Date date) {
+	public List<Boarding> getAllBoardingsByDate(Long cardCode, Calendar date) {
 		try 
 		{
 			return dao.getAllBoardingsByDate(cardCode, date);
@@ -100,7 +100,7 @@ public class BoardingServiceImpl implements BoardingService {
 	}
 
 	@Override
-	public List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish) {
+	public List<Boarding> getAllBoardingsByPeriod(Long cardCode, Calendar start, Calendar finish) {
 		try 
 		{
 			return dao.getAllBoardingsByPeriod(cardCode, start, finish);

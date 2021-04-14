@@ -4,7 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -108,9 +109,10 @@ public class BoardingMenu extends Menu<BoardingService> {
 			
 			card.setBalance(card.getBalance() - ext.getTicketValue());
 						
-			LocalDateTime dt = LocalDateTime.now(); 			
+			LocalDateTime dt = LocalDateTime.now(); 
+			Calendar date = new GregorianCalendar(dt.getYear(),dt.getMonthValue()-1, dt.getDayOfMonth());
 			
-			boarding = new Boarding(ext.getId(), card.getCode(), dt.toLocalDate().toString(), dt.toLocalTime().toString());
+			boarding = new Boarding(ext.getId(), card.getCode(), date, dt.toLocalTime().toString());
 			
 			service.insert(boarding);
 			cardService.update(card);
@@ -184,8 +186,8 @@ public class BoardingMenu extends Menu<BoardingService> {
 				System.out.println("O campo data não pode ser superior a data de hoje ou vazia. Cancelando....");
 				return;
 			}
-			
-			Date date = new Date(day.toEpochDay());				 
+							 
+			Calendar date = new GregorianCalendar(day.getYear(),day.getMonthValue()-1, day.getDayOfMonth());
 			
 			List<Boarding> boardings = service.getAllBoardingsByDate(card.getCode(), date);
 	    	for(Boarding boarding : boardings) {
@@ -220,16 +222,14 @@ public class BoardingMenu extends Menu<BoardingService> {
 				System.out.println("O campo data inicial não pode ser superior a data de hoje ou vazia. Cancelando....");
 				return;
 			}
-					
-			Date date_I = new Date(initial_day.toEpochDay());	
+			Calendar date_I = new GregorianCalendar(initial_day.getYear(),initial_day.getMonthValue()-1, initial_day.getDayOfMonth());
 			
 			LocalDate final_day = LocalDate.parse(Console.readLine("\nInforme a data final desejada no padrão DD-MM-YYYY: "), DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 			if(today.isBefore(final_day) && final_day.isAfter(initial_day) ) {
 				System.out.println("O campo data final não pode ser superior a data de hoje e a data inicial informada, ou vazia. Cancelando....");
 				return;
-			}
-					
-			Date date_F = new Date(final_day.toEpochDay());	
+			}					
+			Calendar date_F = new GregorianCalendar(final_day.getYear(),final_day.getMonthValue()-1, final_day.getDayOfMonth());
 			
 			List<Boarding> boardings = service.getAllBoardingsByPeriod(card.getCode(), date_I, date_F);
 	    	for(Boarding boarding : boardings) {

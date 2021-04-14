@@ -1,6 +1,6 @@
 package Services.Interfaces;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import Entities.Boarding;
@@ -16,7 +16,7 @@ public interface BoardingService {
 	Boarding get(Long id)
 		throws ObjectNotFoundException;
 
-	List<Boarding> getAllBoardingsByDate(Long cardCode, Date date);
+	List<Boarding> getAllBoardingsByDate(Long cardCode, Calendar date);
 	
-	List<Boarding> getAllBoardingsByPeriod(Long cardCode, Date start, Date finish);
+	List<Boarding> getAllBoardingsByPeriod(Long cardCode, Calendar start, Calendar finish);
 }
