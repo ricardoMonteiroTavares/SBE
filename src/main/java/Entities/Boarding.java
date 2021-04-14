@@ -105,4 +105,9 @@ public class Boarding {
 	public void setVersion(int version) {
 		this.version = version;
 	}
+	
+	@Override
+	public String toString() {
+		return "\nID do Embarque: " + this.id + "\nNúmero do Cartão: " + this.id_card + "\nID do Intinerário: " + this.id_executeTravel + "\nData:" + this.date.toString() + "\nHora: " + this.time;
+	}
 }
