@@ -1,6 +1,6 @@
 package Services.Implements;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +81,7 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 	}
 
 	@Override
-	public List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Date date) 
+	public List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Calendar date) 
 	{
 		try 
 		{
@@ -94,7 +94,7 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 	}
 
 	@Override
-	public List<ExecuteTravel> getAllExTravelsByDateAndDirection(Long travelId, String direction, Date date)
+	public List<ExecuteTravel> getAllExTravelsByDateAndDirection(Long travelId, String direction, Calendar date)
 	{
 		try 
 		{
@@ -107,7 +107,7 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 	}
 
 	@Override
-	public List<ExecuteTravel> getAllExTravelsByPeriod(Long travelId, Date start, Date finish)
+	public List<ExecuteTravel> getAllExTravelsByPeriod(Long travelId, Calendar start, Calendar finish)
 	{
 		try 
 		{
@@ -120,8 +120,8 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 	}
 
 	@Override
-	public List<ExecuteTravel> getAllExTravelsByPeriodAndDirection(Long travelId, String direction, Date start,
-			Date finish) {
+	public List<ExecuteTravel> getAllExTravelsByPeriodAndDirection(Long travelId, String direction, Calendar start,
+			Calendar finish) {
 		try 
 		{
 			return dao.getAllExTravelsByPeriodAndDirection(travelId, direction, start, finish);

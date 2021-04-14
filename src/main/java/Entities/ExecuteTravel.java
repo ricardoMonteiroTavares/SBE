@@ -1,5 +1,7 @@
 package Entities;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -34,7 +38,7 @@ public class ExecuteTravel {
 	private Long id_travel;
 	private String company;
 	private String vehicleCode;
-	private String date;
+	private Calendar date;
 	private String time;
 	private String direction;
 	private double ticketValue;
@@ -48,7 +52,7 @@ public class ExecuteTravel {
 			Long id_travel, 
 			String company,
 			String vehicleCode,
-			String date,
+			Calendar date,
 			String time,
 			String direction,
 			double ticketValue
@@ -82,7 +86,8 @@ public class ExecuteTravel {
 		return vehicleCode;
 	}
 	
-	public String getDate() {
+	@Temporal(TemporalType.DATE)
+	public Calendar getDate() {
 		return date;
 	}
 
@@ -121,7 +126,7 @@ public class ExecuteTravel {
 		this.vehicleCode = vehicleCode;
 	}
 	
-	public void setDate(String date) {
+	public void setDate(Calendar date) {
 		this.date = date;
 	}
 
