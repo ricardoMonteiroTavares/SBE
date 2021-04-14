@@ -418,17 +418,19 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 				case 1: 
 				{
 					direction = travel.getOrigin();
+					break;
 				}
 				case 2:
 				{
 					direction = travel.getDestination();
+					break;
 				}
 				default:
 				{
 					System.out.println(invalidOption);
 				}
 			}
-		}while(option != 1 || option != 2);
+		}while(direction == null);
 		return direction;
 	}
 }
