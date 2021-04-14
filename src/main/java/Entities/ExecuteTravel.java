@@ -125,6 +125,10 @@ public class ExecuteTravel {
 		this.ticketValue = ticketValue;
 	}
 	
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
 	@Override
 	public String toString() {
 	return "\nID do Intinerário: " + this.id + "\nID da Viagem: " + this.id_travel + "\nEmpresa: " + this.company + "\nCód. do Veículo:" + this.vehicleCode + "\nTarifa: " + this.ticketValue + "\nDia: " + this.date + "\nHora: " + this.time + "\nDireção: " + this.direction;

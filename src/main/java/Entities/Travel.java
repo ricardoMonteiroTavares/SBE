@@ -63,7 +63,7 @@ public class Travel {
 	
 	// Setters
 	@SuppressWarnings("unused")
-	private void setCode(Long id) {
+	private void setId(Long id) {
 		this.id = id;
 	}
 	

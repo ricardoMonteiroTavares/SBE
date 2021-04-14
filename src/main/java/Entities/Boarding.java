@@ -87,5 +87,7 @@ public class Boarding {
 		this.time = time;
 	}
 	
-	
+	public void setVersion(int version) {
+		this.version = version;
+	}
 }
