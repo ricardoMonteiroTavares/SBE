@@ -227,7 +227,7 @@ public class TravelMenu extends Menu<TravelService> {
 	    }
 	
 	private boolean isNotEmpty(String s) {
-		return s.isEmpty() && !s.equals("");
+		return !s.isEmpty() && !s.equals("");
 	}
 
 }

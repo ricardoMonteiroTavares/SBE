@@ -401,7 +401,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 	}
 
 	private boolean isNotEmpty(String s) {
-		return s.isEmpty() && !s.equals("");
+		return !s.isEmpty() && !s.equals("");
 	}
 	
 	private String selectDirection(Travel travel) {
