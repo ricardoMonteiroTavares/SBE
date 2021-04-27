@@ -1,6 +1,13 @@
 package sbe;
 
-import Menu.Implements.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import Menu.Implements.BoardingMenu;
+import Menu.Implements.CardMenu;
+import Menu.Implements.ExecuteTravelMenu;
+import Menu.Implements.TravelMenu;
+import Singletons.ProfileSingleton;
 import corejava.Console;
 
 /**
@@ -11,6 +18,43 @@ public class App
 {
     public static void main( String[] args )
     {
+    	List<String> profiles = new ArrayList<String>();
+    	
+    	System.out.println("Bem-vindo ao sistema de login");
+    	
+    	boolean login = true;
+    	
+    	while(login)
+    	{
+    		String profile = Console.readLine("\nInforme um perfil para entrar no sistema: ");
+    		if(isNotEmpty(profile))
+    		{
+    			profiles.add(profile);
+    		}
+    		else
+    		{
+    			System.out.println("Perfil inválido");
+    		}
+    		
+    		String resp = Console.readLine("Deseja adicionar mais um perfil? (S ou s para Sim, Qualquer tecla para Não)");
+    		
+    		if(!resp.toLowerCase().equals("s")) {
+    			login = false;
+    		}
+    	}
+    	
+    	if(profiles.isEmpty()) 
+    	{
+    		System.out.println("Não exitem perfis logados no sistema. Encerrando....");
+    		return;
+    	}
+    	
+    	String[] arr = new String[profiles.size()];
+    	arr = profiles.toArray(arr); 
+    	
+    	ProfileSingleton singleton = ProfileSingleton.getSingleton();
+    	singleton.setProfiles(arr);
+    	
     	CardMenu cardMenu = new CardMenu();
     	BoardingMenu boardingMenu = new BoardingMenu();
     	ExecuteTravelMenu exMenu = new ExecuteTravelMenu();
@@ -65,4 +109,8 @@ public class App
 		System.out.println("4. Menu Embarques");
 		System.out.println("5. Sair");
     }
+    
+	private static boolean isNotEmpty(String s) {
+		return !s.isEmpty() && !s.equals("");
+	}
 }
