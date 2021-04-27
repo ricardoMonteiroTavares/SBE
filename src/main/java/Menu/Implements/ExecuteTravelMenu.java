@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -14,7 +13,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import Entities.ExecuteTravel;
 import Entities.Travel;
+import Exceptions.ExTravelWithBoardings;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.UnknownViolatedConstraintException;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.ExecuteTravelService;
 import Services.Interfaces.TravelService;
@@ -295,7 +296,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 				System.out.println("\nIntinerário não removido.");
 			}
 		}
-		catch(ObjectNotFoundException e)
+		catch(ObjectNotFoundException | ExTravelWithBoardings | UnknownViolatedConstraintException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 		}

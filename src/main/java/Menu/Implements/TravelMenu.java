@@ -7,6 +7,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.TravelIsRegistredException;
+import Exceptions.UnknownViolatedConstraintException;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.TravelService;
 import corejava.Console;
@@ -82,7 +84,15 @@ public class TravelMenu extends Menu<TravelService> {
 			double ticketValue = Console.readDouble("\nInforme o valor da passagem da viagem: ");
 			if(ticketValue > 0) {
 				travel = new Travel(line, origin, destination, ticketValue);
-				service.insert(travel);
+				try 
+				{
+					service.insert(travel);
+				}
+				catch(TravelIsRegistredException | UnknownViolatedConstraintException e)
+				{
+					System.out.println('\n' + e.getMessage());
+				}
+				
 			}
 			else {
 				System.out.println("Campos inválidos ou Vazios. Cancelando....");
