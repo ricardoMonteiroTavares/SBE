@@ -20,7 +20,8 @@ CREATE TABLE banco.travel (
   destination VARCHAR(40) NOT NULL,
   ticketValue DECIMAL(8, 2) NOT NULL,
   version INT DEFAULT 0,
-  PRIMARY KEY (id, line)
+  PRIMARY KEY (id),
+  CONSTRAINT TRAVEL_LINE_UN UNIQUE(line)
 )
 
 ENGINE = INNODB
@@ -52,7 +53,7 @@ CREATE TABLE banco.boarding (
 	
 	version INT DEFAULT 0,
     PRIMARY KEY (id),
-    FOREIGN KEY (id_executeTravel) REFERENCES banco.execute_travel(id),
+    CONSTRAINT BOARDING_EXTRAVEL_FK FOREIGN KEY (id_executeTravel) REFERENCES banco.execute_travel(id),
     FOREIGN KEY (id_card) REFERENCES banco.card(code)
 )
 ENGINE = INNODB
