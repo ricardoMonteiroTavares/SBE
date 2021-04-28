@@ -2,23 +2,17 @@ package Exceptions;
 
 public class ProfileException extends RuntimeException {
 	private static final long serialVersionUID = 6;
-	private int code;
-	
+	private final String detailedMsg = "Foi tentado realizar uma operação X no banco de dados ao qual o(s) perfil(s) logado(s) não possui(em) autorização.";
 	
 	public ProfileException(String msg)
 	{
 		super(msg);
 	}
 	
-	public ProfileException(String msg, int errorCode)
+	@Override
+	public String getMessage() 
 	{
-		super(msg);
-		this.code = errorCode;
-	}
-	
-	public int getErrorCode() 
-	{
-		return this.code;
+		return detailedMsg;
 	}
 
 }
