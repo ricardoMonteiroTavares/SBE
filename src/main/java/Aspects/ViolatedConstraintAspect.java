@@ -8,14 +8,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.reflections.Reflections;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import Annotations.ViolatedConstraint;
 import Exceptions.UnknownViolatedConstraintException;
 
-public aspect ViolatedConstraintAspect {
-	
+@Aspect
+public class ViolatedConstraintAspect {
+
 	private static Map<String, Class<?>> map = new HashMap<String, Class<?>>();
 	private static List<String> constraints;
 	
@@ -30,16 +35,23 @@ public aspect ViolatedConstraintAspect {
 		constraints = new ArrayList<String>(map.keySet());
 	}
 	
-	pointcut exception() : call (* Services.Implements..*.*(..));
 	
-	Object around() throws Throwable : exception()
+	@Pointcut("call(* Services.Interfaces..*.*(..))")
+	public void exception() {}
+	
+	@Around("exception()")
+	public Object exceptionEx(ProceedingJoinPoint joinPoint) throws Throwable 
 	{
-		try {
-			return proceed();
-		} catch (Throwable e) {
+		try 
+		{
+			return joinPoint.proceed();
+		} 
+		catch (Throwable e) 
+		{
 			Throwable t = e;
 
-			if (t instanceof DataIntegrityViolationException) {
+			if (t instanceof DataIntegrityViolationException) 
+			{
 				t = t.getCause();
 				while (t != null && !(t instanceof SQLException)) {
 					t = t.getCause();
@@ -57,11 +69,12 @@ public aspect ViolatedConstraintAspect {
 					}
 				}
 				throw new UnknownViolatedConstraintException("A operação não pode ser realizada.");
-			} else {
+			} 
+			else 
+			{
 				throw e;
 			}
 		}
-		
-	}
 
+	}
 }

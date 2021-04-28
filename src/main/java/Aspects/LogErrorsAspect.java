@@ -4,20 +4,27 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.apache.log4j.Logger;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 
-public aspect LogErrorsAspect {
+@Aspect
+public class LogErrorsAspect {
 	private static Logger logger = null;
 	
-	pointcut logError()	: call (* Services.Implements..*.*(..));
+	@Pointcut("call(* Services.Interfaces..*.*(..))")
+	public void logError() {}
 	
-	Object around() throws Throwable : logError() 
+	@Around("logError()")
+	public Object logErrorEx(ProceedingJoinPoint joinPoint) throws Throwable 
 	{
-		String method = thisJoinPointStaticPart.getSignature().getClass().getName() + ":" +thisJoinPointStaticPart.getSignature().getName();
+		String method = joinPoint.getSignature().getClass().getName() + ":" + joinPoint.getSignature().getName();
 		
 		try
 		{
 			System.out.println("Executar Método: " + method);
-			return proceed();
+			return joinPoint.proceed();
 		}
 		catch(Throwable throwable)
 		{
