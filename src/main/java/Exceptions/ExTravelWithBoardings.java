@@ -7,22 +7,16 @@ import Annotations.ViolatedConstraint;
 		msg="Este intinerário possui embarques e não pode ser removido.")
 public class ExTravelWithBoardings extends RuntimeException {
 	private static final long serialVersionUID = 3;
-	private int code;
-	
+	private final String detailedMsg = "Foi tentado realizar uma operação de exclusão um ExecuteTravel, no banco de dados, porém o mesmo contém objetos Boardings referenciados.";
 	
 	public ExTravelWithBoardings(String msg)
 	{
 		super(msg);
 	}
 	
-	public ExTravelWithBoardings(String msg, int errorCode)
+	@Override
+	public String getMessage() 
 	{
-		super(msg);
-		this.code = errorCode;
-	}
-	
-	public int getErrorCode() 
-	{
-		return this.code;
+		return detailedMsg;
 	}
 }

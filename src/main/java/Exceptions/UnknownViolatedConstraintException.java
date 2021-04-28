@@ -2,7 +2,7 @@ package Exceptions;
 
 public class UnknownViolatedConstraintException extends RuntimeException {
 	private static final long serialVersionUID = 5;
-	private int code;
+	private final String detailedMsg = "Uma constraint não identificada do banco de dados foi violada.";
 	
 	
 	public UnknownViolatedConstraintException(String msg)
@@ -10,15 +10,9 @@ public class UnknownViolatedConstraintException extends RuntimeException {
 		super(msg);
 	}
 	
-	public UnknownViolatedConstraintException(String msg, int errorCode)
+	@Override
+	public String getMessage() 
 	{
-		super(msg);
-		this.code = errorCode;
+		return detailedMsg;
 	}
-	
-	public int getErrorCode() 
-	{
-		return this.code;
-	}
-
 }

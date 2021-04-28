@@ -7,22 +7,16 @@ import Annotations.ViolatedConstraint;
 		msg="Linha com o código duplicado.")
 public class TravelIsRegistredException extends RuntimeException {
 	private static final long serialVersionUID = 4;
-	private int code;
-	
+	private final String detailedMsg = "Foi tentado realizar uma operação de inclusão de um Travel no banco de dados, porém o código da linha, informado pelo objeto, já existe no banco de dados.";
 	
 	public TravelIsRegistredException(String msg)
 	{
 		super(msg);
 	}
 	
-	public TravelIsRegistredException(String msg, int errorCode)
+	@Override
+	public String getMessage() 
 	{
-		super(msg);
-		this.code = errorCode;
-	}
-	
-	public int getErrorCode() 
-	{
-		return this.code;
+		return detailedMsg;
 	}
 }
