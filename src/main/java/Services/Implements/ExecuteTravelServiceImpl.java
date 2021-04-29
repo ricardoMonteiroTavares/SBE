@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import DAOs.Interfaces.ExecuteTravelDAO;
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Services.Interfaces.ExecuteTravelService;
 
 public class ExecuteTravelServiceImpl implements ExecuteTravelService {
@@ -25,14 +26,14 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 
 	@Override
 	@Transactional
-	public void update(ExecuteTravel exTravel) throws ObjectNotFoundException 
+	public void update(ExecuteTravel exTravel) throws ObjectNotFoundException, ObjectVersionException 
 	{
 		try
 		{
 			dao.getByLockMode(exTravel.getId());
 			dao.update(exTravel);
 		}
-		catch(ObjectNotFoundException| RuntimeException e) {
+		catch(ObjectNotFoundException | ObjectVersionException | RuntimeException e) {
 			throw e;
 		}
 	}

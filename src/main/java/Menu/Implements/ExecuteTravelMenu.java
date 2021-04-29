@@ -15,6 +15,7 @@ import Entities.ExecuteTravel;
 import Entities.Travel;
 import Exceptions.ExTravelWithBoardings;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Exceptions.UnknownViolatedConstraintException;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.ExecuteTravelService;
@@ -266,7 +267,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
     		}
     		
 		}
-		catch(ObjectNotFoundException e)
+		catch(ObjectNotFoundException | ObjectVersionException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 			return;

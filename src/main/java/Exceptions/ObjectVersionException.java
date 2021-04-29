@@ -2,28 +2,12 @@ package Exceptions;
 
 public class ObjectVersionException extends Exception {
 	private static final long serialVersionUID = 2;
-	private int code;
-	private final String detailedMsg = "Foi tentado realizar uma operação de atualização em um objeto de classe X e com id Y no banco de dados, porém a versão do objeto, encontra-se desatualizado.";
+	private static final String templateMsg = "Foi tentado realizar uma operação de atualização em um objeto de classe %s no banco de dados, porém o mesmo objeto foi modificado por outro usuário.";
 	
-	public ObjectVersionException(String msg)
+	public ObjectVersionException(String className)
 	{
-		super(msg);
+		super(String.format(templateMsg, className));
 	}
 	
-	public ObjectVersionException(String msg, int errorCode)
-	{
-		super(msg);
-		this.code = errorCode;
-	}
-	
-	public int getErrorCode() 
-	{
-		return this.code;
-	}
-	
-	@Override
-	public String getMessage() 
-	{
-		return detailedMsg;
-	}
+
 }

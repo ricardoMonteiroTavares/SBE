@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import DAOs.Interfaces.CardDAO;
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Services.Interfaces.CardService;
 
 @Repository
@@ -26,7 +27,7 @@ public class CardServiceImpl implements CardService {
 
 	@Override
 	@Transactional
-	public void update(Card card) throws ObjectNotFoundException 
+	public void update(Card card) throws ObjectNotFoundException, ObjectVersionException 
 	{
 		
 		try 
@@ -34,7 +35,7 @@ public class CardServiceImpl implements CardService {
 			dao.getByLockMode(card.getCode());
 			dao.update(card);	
 		}
-		catch(ObjectNotFoundException | RuntimeException e) 
+		catch(ObjectNotFoundException | ObjectVersionException | RuntimeException e) 
 		{
 			throw e;
 		}

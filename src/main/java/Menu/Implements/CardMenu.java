@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.CardService;
 import corejava.Console;
@@ -149,7 +150,7 @@ public class CardMenu extends Menu<CardService> {
     				System.out.println(invalidOption);
     		}
 		}
-		catch(ObjectNotFoundException e)
+		catch(ObjectNotFoundException | ObjectVersionException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 			return;

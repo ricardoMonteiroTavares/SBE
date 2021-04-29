@@ -6,16 +6,17 @@ import java.util.List;
 import Annotations.Profile;
 import Entities.Boarding;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 
 public interface BoardingService {
 	
 	@Profile(profiles={"user"})
 	Boarding insert(Boarding boarding) 
-		throws ObjectNotFoundException;
+		throws ObjectNotFoundException, ObjectVersionException;
 
 	@Profile(profiles={"admin"})
 	void delete(Boarding boarding)
-		throws ObjectNotFoundException;
+		throws ObjectNotFoundException, ObjectVersionException;
 
 	@Profile(profiles={"admin","user"})
 	Boarding get(Long id)

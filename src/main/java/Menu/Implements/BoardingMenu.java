@@ -15,6 +15,7 @@ import Entities.Boarding;
 import Entities.Card;
 import Entities.ExecuteTravel;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Menu.Interfaces.Menu;
 import Services.Interfaces.BoardingService;
 import Services.Interfaces.CardService;
@@ -118,12 +119,7 @@ public class BoardingMenu extends Menu<BoardingService> {
 			cardService.update(card);
 			
 		}
-		catch(ObjectNotFoundException e) {
-			System.out.println(e.toString());
-			return;
-		}
-		catch (RuntimeException e)
-		{
+		catch(ObjectNotFoundException | ObjectVersionException | RuntimeException e) {
 			System.out.println(e.toString());
 			return;
 		}
@@ -158,7 +154,7 @@ public class BoardingMenu extends Menu<BoardingService> {
 			service.delete(boarding);
 				System.out.println("\nEmbarque removido com sucesso!");
 			}
-			catch(ObjectNotFoundException e)
+			catch(ObjectNotFoundException | ObjectVersionException e)
 			{	
 				System.out.println('\n' + e.getMessage());
 			}

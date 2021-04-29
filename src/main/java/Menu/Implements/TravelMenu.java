@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Exceptions.TravelIsRegistredException;
 import Exceptions.UnknownViolatedConstraintException;
 import Menu.Interfaces.Menu;
@@ -182,7 +183,7 @@ public class TravelMenu extends Menu<TravelService> {
     			return;
     		}
 		}
-		catch(ObjectNotFoundException e)
+		catch(ObjectNotFoundException | ObjectVersionException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 			return;

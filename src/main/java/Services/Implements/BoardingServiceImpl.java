@@ -12,6 +12,7 @@ import DAOs.Interfaces.ExecuteTravelDAO;
 import Entities.Boarding;
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 import Services.Interfaces.BoardingService;
 
 public class BoardingServiceImpl implements BoardingService {
@@ -27,7 +28,7 @@ public class BoardingServiceImpl implements BoardingService {
 	
 	@Override
 	@Transactional
-	public Boarding insert(Boarding boarding) throws ObjectNotFoundException
+	public Boarding insert(Boarding boarding) throws ObjectNotFoundException, ObjectVersionException
 	{
 		try 
 		{
@@ -39,7 +40,7 @@ public class BoardingServiceImpl implements BoardingService {
 			cardDao.update(card);
 			return dao.insert(boarding);
 		}
-		catch(ObjectNotFoundException e) 
+		catch(ObjectNotFoundException | ObjectVersionException e) 
 		{
 			throw e;
 		}
@@ -47,7 +48,7 @@ public class BoardingServiceImpl implements BoardingService {
 
 	@Override
 	@Transactional
-	public void delete(Boarding boarding) throws ObjectNotFoundException 
+	public void delete(Boarding boarding) throws ObjectNotFoundException, ObjectVersionException 
 	{
 		try 
 		{
@@ -59,7 +60,7 @@ public class BoardingServiceImpl implements BoardingService {
 			cardDao.update(card);
 			dao.delete(boarding);	
 		}		
-		catch(ObjectNotFoundException | RuntimeException e) 
+		catch(ObjectNotFoundException | ObjectVersionException | RuntimeException e) 
 		{
 			throw e;
 		}		

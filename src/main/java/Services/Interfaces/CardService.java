@@ -5,6 +5,7 @@ import java.util.List;
 import Annotations.Profile;
 import Entities.Card;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 
 public interface CardService {
 	@Profile(profiles={"admin","user"})
@@ -12,7 +13,7 @@ public interface CardService {
 
 	@Profile(profiles={"admin","user"})
 	void update(Card card)
-		throws ObjectNotFoundException;
+		throws ObjectNotFoundException, ObjectVersionException;
 
 	@Profile(profiles={"admin"})
 	void delete(Card card)

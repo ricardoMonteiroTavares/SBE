@@ -6,11 +6,13 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import DAOs.Interfaces.DAO;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 
 
 public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
@@ -30,9 +32,14 @@ public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 		return o;
 	}
 
-	public final void update(T o) 
+	public final void update(T o) throws ObjectVersionException
 	{		
-		em.merge(o);		
+		try {
+		em.merge(o);	
+		}
+		catch(OptimisticLockException e) {
+			throw new ObjectVersionException(type.getName());
+		}
 	}
 
 	public final void delete(T o) 

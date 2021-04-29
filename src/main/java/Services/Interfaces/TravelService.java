@@ -5,6 +5,7 @@ import java.util.List;
 import Annotations.Profile;
 import Entities.Travel;
 import Exceptions.ObjectNotFoundException;
+import Exceptions.ObjectVersionException;
 
 public interface TravelService {
 	@Profile(profiles={"admin"})
@@ -12,7 +13,7 @@ public interface TravelService {
 
 	@Profile(profiles={"admin"})
 	void update(Travel travel)
-		throws ObjectNotFoundException;
+		throws ObjectNotFoundException, ObjectVersionException;
 
 	@Profile(profiles={"admin"})
 	void delete(Travel travel)
