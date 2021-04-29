@@ -37,7 +37,7 @@ public class ProfileAspect {
 				}
 			}
 			
-			throw new ProfileException("Perfil inválido");
+			throw new ProfileException(signature.getDeclaringTypeName(), signature.getMethod().getName());
 		}
 		else 
 		{
