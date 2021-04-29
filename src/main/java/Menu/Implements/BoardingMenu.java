@@ -115,9 +115,9 @@ public class BoardingMenu extends Menu<BoardingService> {
 			
 			boarding = new Boarding(ext.getId(), card.getCode(), date, dt.toLocalTime().toString());
 			
-			service.insert(boarding);
-			cardService.update(card);
 			
+			cardService.update(card);
+			service.insert(boarding);
 		}
 		catch(ObjectNotFoundException | ObjectVersionException | RuntimeException e) {
 			System.out.println(e.toString());
