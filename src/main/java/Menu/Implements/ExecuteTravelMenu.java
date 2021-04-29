@@ -288,19 +288,29 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
 			String resp = Console.readLine("\nConfirma a remoção do intinerário? (S ou s para Sim, Qualquer tecla para Não)");
 
 			if(resp.toLowerCase().equals("s"))
-			{			
-				service.delete(ext);
-				System.out.println("\nIntinerário removido com sucesso!");								
+			{	
+				try 
+				{
+					service.delete(ext);
+					System.out.println("\nIntinerário removido com sucesso!");
+				}
+				catch(ExTravelWithBoardings | UnknownViolatedConstraintException e) 
+				{
+					System.out.println('\n' + e.getMessage());
+					return;
+				}
 			}
 			else
 			{	
 				System.out.println("\nIntinerário não removido.");
 			}
 		}
-		catch(ObjectNotFoundException | ExTravelWithBoardings | UnknownViolatedConstraintException e)
+		catch(ObjectNotFoundException e)
 		{	
 			System.out.println('\n' + e.getMessage());
 		}
+		
+		
 	}
 	
 	private void getAllExecuteTravelsInDay(ExecuteTravelService service) {
