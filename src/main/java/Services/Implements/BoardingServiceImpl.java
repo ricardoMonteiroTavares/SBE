@@ -52,6 +52,7 @@ public class BoardingServiceImpl implements BoardingService {
 	{
 		try 
 		{
+			dao.get(boarding.getId());
 			Card card = cardDao.getByLockMode(boarding.getId_card());
 			
 			double newBalance = card.getBalance() + exDao.get(boarding.getId_executeTravel()).getTicketValue();

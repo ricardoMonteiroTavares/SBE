@@ -44,11 +44,12 @@ public class ExecuteTravelServiceImpl implements ExecuteTravelService {
 	{
 		try 
 		{
-			dao.getByLockMode(exTravel.getId());
+			dao.get(exTravel.getId());
 			dao.delete(exTravel);
 		}
 		catch(ObjectNotFoundException | RuntimeException e) 
 		{
+			System.out.println(e.getMessage());
 			throw e;
 		}
 		

@@ -92,6 +92,7 @@ public class TravelMenu extends Menu<TravelService> {
 				catch(TravelIsRegistredException | UnknownViolatedConstraintException e)
 				{
 					System.out.println('\n' + e.getMessage());
+					return;
 				}
 				
 			}

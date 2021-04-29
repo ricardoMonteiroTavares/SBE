@@ -48,7 +48,7 @@ public class CardServiceImpl implements CardService {
 	{
 		try 
 		{
-			dao.getByLockMode(card.getCode());
+			dao.get(card.getCode());
 			dao.delete(card);
 		}
 		catch(ObjectNotFoundException | RuntimeException e) 

@@ -44,7 +44,7 @@ public class TravelServiceImpl implements TravelService{
 	{
 		try 
 		{
-			dao.getByLockMode(travel.getId());
+			dao.get(travel.getId());
 			dao.delete(travel);
 		}
 		catch(ObjectNotFoundException | RuntimeException e) 
