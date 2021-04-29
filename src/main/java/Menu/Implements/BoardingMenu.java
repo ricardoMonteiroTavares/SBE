@@ -36,7 +36,7 @@ public class BoardingMenu extends Menu<BoardingService> {
         do {
         	consoleOptions();
         	
-        	int option = Console.readInt("\nDigite um número entre 1 e 6:");
+        	int option = Console.readInt(choiceOption);
         	
         	switch (option) {
         		case 1:

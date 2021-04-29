@@ -26,7 +26,7 @@ public class TravelMenu extends Menu<TravelService> {
         do {
         	consoleOptions();
         	
-        	int option = Console.readInt("\nDigite um nÃºmero entre 1 e 5:");
+        	int option = Console.readInt(choiceOption);
         	
         	switch (option) {
         		case 1:
@@ -127,7 +127,7 @@ public class TravelMenu extends Menu<TravelService> {
     		System.out.println("3. Mudar o Destino");
     		System.out.println("4. Mudar o valor da Tarifa");
     		
-    		int option = Console.readInt("\nDigite um número de 1 a 4:");
+    		int option = Console.readInt(choiceOption);
     		boolean updated = false;
     		
     		switch(option)

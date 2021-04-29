@@ -65,7 +65,7 @@ public class App
     	do {
     		consoleOptions();
     		
-    		int option = Console.readInt("\nDigite um número entre 1 e 5:");
+    		int option = Console.readInt("\nEscolha uma opção:");
     		
     		switch (option) {
     		case 1:

@@ -3,6 +3,7 @@ package Menu.Interfaces;
 public abstract class Menu<T> {
 	
 	final protected String invalidOption = "\nOpção Inválida!"; 
+	final protected String choiceOption = "\nEscolha uma opção:";
 	
 	abstract public void menu();
 	

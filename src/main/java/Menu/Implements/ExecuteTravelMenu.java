@@ -35,7 +35,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
         do {
         	consoleOptions();
         	
-        	int option = Console.readInt("\nDigite um número entre 1 e 5:");
+        	int option = Console.readInt(choiceOption);
         	
         	switch (option) {
         		case 1:
@@ -160,7 +160,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
     		System.out.println("3. Mudar o Sentido");
     		System.out.println("4. Mudar o Código do Veículo");
     		
-    		int option = Console.readInt("\nDigite um nÃºmero de 1 a 4:");
+    		int option = Console.readInt(choiceOption);
     		boolean updated = false;
     		
     		switch(option)
@@ -176,7 +176,7 @@ public class ExecuteTravelMenu extends Menu<ExecuteTravelService> {
     				
     				String newdirection = null;    			
     				do {
-    					option = Console.readInt("\nDigite um número entre 1 e 2:");
+    					option = Console.readInt(choiceOption);
     					
     					switch(option) {
     						case 1: 

@@ -27,7 +27,7 @@ public class CardMenu extends Menu<CardService> {
         do {
         	consoleOptions();
         	
-        	int option = Console.readInt("\nDigite um número entre 1 e 5:");
+        	int option = Console.readInt(choiceOption);
         	
         	switch (option) {
         		case 1:
@@ -112,7 +112,7 @@ public class CardMenu extends Menu<CardService> {
     		System.out.println("\n1. Mudar Nome");
     		System.out.println("2. Inserir Créditos");
     		
-    		int option = Console.readInt("\nDigite um número de 1 a 2:");
+    		int option = Console.readInt(choiceOption);
     		
     		switch(option)
     		{
