@@ -25,8 +25,6 @@ public class BoardingServiceImpl implements BoardingService {
 	@Autowired
 	CardDAO cardDao;
 	
-	private final String errorMsg = "Embarque, Cartão ou Intinerário não encotrado";
-	
 	@Override
 	@Transactional
 	public Boarding insert(Boarding boarding) throws ObjectNotFoundException
@@ -60,12 +58,8 @@ public class BoardingServiceImpl implements BoardingService {
 			
 			cardDao.update(card);
 			dao.delete(boarding);	
-		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		}		
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}		
@@ -77,12 +71,8 @@ public class BoardingServiceImpl implements BoardingService {
 		{
 			return dao.get(id);
 		}
-		catch(ObjectNotFoundException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
-		{
 			throw e;
 		}
 	}

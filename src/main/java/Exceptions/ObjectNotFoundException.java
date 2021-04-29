@@ -3,29 +3,11 @@ package Exceptions;
 public class ObjectNotFoundException extends Exception{
 
 	private static final long serialVersionUID = 1;
-	private int code;
-	private final String detailedMsg = "O objeto da classe X e com código Y, não está presente no banco de dados.";
+	private static final String templateMsg = "O objeto da classe %s e com código %s, não está presente no banco de dados.";
 	
-	public ObjectNotFoundException(String msg)
+	public ObjectNotFoundException(String className, String id)
 	{
-		super(msg);
-	}
-	
-	public ObjectNotFoundException(String msg, int errorCode)
-	{
-		super(msg);
-		this.code = errorCode;
-	}
-	
-	public int getErrorCode() 
-	{
-		return this.code;
-	}
-	
-	@Override
-	public String getMessage() 
-	{
-		return detailedMsg;
+		super(String.format(templateMsg, className, id));
 	}
 
 }

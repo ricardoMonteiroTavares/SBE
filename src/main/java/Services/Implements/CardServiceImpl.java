@@ -16,8 +16,6 @@ public class CardServiceImpl implements CardService {
 
 	@Autowired
 	CardDAO dao;
-
-	private final String errorMsg = "Cartão não encotrado";
 	
 	@Override
 	@Transactional
@@ -36,11 +34,7 @@ public class CardServiceImpl implements CardService {
 			dao.getByLockMode(card.getCode());
 			dao.update(card);	
 		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}
@@ -56,11 +50,7 @@ public class CardServiceImpl implements CardService {
 			dao.getByLockMode(card.getCode());
 			dao.delete(card);
 		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}
@@ -74,11 +64,7 @@ public class CardServiceImpl implements CardService {
 		{
 			return dao.get(code);
 		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}

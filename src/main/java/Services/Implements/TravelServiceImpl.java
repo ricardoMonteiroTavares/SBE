@@ -15,8 +15,6 @@ public class TravelServiceImpl implements TravelService{
 	@Autowired
 	TravelDAO dao;
 	
-	private final String errorMsg = "Viagem não encotrada";
-	
 	@Override
 	@Transactional
 	public Travel insert(Travel travel) 
@@ -33,11 +31,7 @@ public class TravelServiceImpl implements TravelService{
 			dao.getByLockMode(travel.getId());
 			dao.update(travel);	
 		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}
@@ -52,11 +46,7 @@ public class TravelServiceImpl implements TravelService{
 			dao.getByLockMode(travel.getId());
 			dao.delete(travel);
 		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}
@@ -70,11 +60,7 @@ public class TravelServiceImpl implements TravelService{
 		{
 			return dao.get(id);
 		}
-		catch(ObjectNotFoundException e) 
-		{			
-			throw new ObjectNotFoundException(errorMsg);
-		}
-		catch(RuntimeException e) 
+		catch(ObjectNotFoundException | RuntimeException e) 
 		{
 			throw e;
 		}

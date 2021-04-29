@@ -46,7 +46,7 @@ public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 			t = em.find(type, id);
 
 			if (t == null) {
-				throw new ObjectNotFoundException("Elemento não encontrado");
+				throw new ObjectNotFoundException(type.getName(),id.toString());
 			}
 		} catch (RuntimeException e) {
 			throw e;
@@ -60,7 +60,7 @@ public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 			t = em.find(type, id, LockModeType.PESSIMISTIC_WRITE);
 
 			if (t == null) {
-				throw new ObjectNotFoundException("Elemento não encontrado");
+				throw new ObjectNotFoundException(type.getName(),id.toString());
 			}
 		} catch (RuntimeException e) {
 			throw e;

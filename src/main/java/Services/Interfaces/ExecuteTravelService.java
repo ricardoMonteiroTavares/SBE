@@ -25,14 +25,18 @@ public interface ExecuteTravelService {
 			throws ObjectNotFoundException;
 
 	@Profile(profiles={"company"})
-	List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Calendar date);
+	List<ExecuteTravel> getAllExTravelsByDate(Long travelId, Calendar date)
+			throws ObjectNotFoundException;
 	
 	@Profile(profiles={"company"})
-	List<ExecuteTravel> getAllExTravelsByDateAndDirection(Long travelId, String direction, Calendar date);
+	List<ExecuteTravel> getAllExTravelsByDateAndDirection(Long travelId, String direction, Calendar date)
+			throws ObjectNotFoundException;
 	
 	@Profile(profiles={"company"})
-	List<ExecuteTravel> getAllExTravelsByPeriod(Long travelId, Calendar start, Calendar finish);
+	List<ExecuteTravel> getAllExTravelsByPeriod(Long travelId, Calendar start, Calendar finish)
+			throws ObjectNotFoundException;
 	
 	@Profile(profiles={"company"})
-	List<ExecuteTravel> getAllExTravelsByPeriodAndDirection(Long travelId, String direction, Calendar start, Calendar finish);
+	List<ExecuteTravel> getAllExTravelsByPeriodAndDirection(Long travelId, String direction, Calendar start, Calendar finish) 
+			throws ObjectNotFoundException;
 }
