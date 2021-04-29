@@ -44,7 +44,7 @@ public class DAOImpl<T, PK extends Serializable> implements DAO<T, PK> {
 
 	public final void delete(T o) 
 	{		
-		em.remove(o);
+		em.remove(em.contains(o) ? o : em.merge(o));
 	}
 
 	public final T get(PK id) throws ObjectNotFoundException {
