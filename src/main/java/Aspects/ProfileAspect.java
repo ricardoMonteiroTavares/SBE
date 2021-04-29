@@ -30,7 +30,7 @@ public class ProfileAspect {
 			{
 				for(String profile : profiles)
 				{
-					if(profile == loggedProfile) 
+					if(profile.equals(loggedProfile)) 
 					{
 						return joinPoint.proceed();
 					}
