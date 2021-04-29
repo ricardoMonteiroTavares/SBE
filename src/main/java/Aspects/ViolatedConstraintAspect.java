@@ -68,7 +68,7 @@ public class ViolatedConstraintAspect {
 						throw (Exception) constructor.newInstance(message);
 					}
 				}
-				throw new UnknownViolatedConstraintException("A operação não pode ser realizada.");
+				throw new UnknownViolatedConstraintException();
 			} 
 			else 
 			{
